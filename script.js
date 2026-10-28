@@ -24,19 +24,10 @@
   const collagePhotoStrip = document.getElementById('collagePhotoStrip');
   const boothDateDisplay = document.getElementById('boothDateDisplay');
   const openInvitationBtn = document.getElementById('openInvitationBtn');
-  const boothSubControls = document.getElementById('boothSubControls');
-  const reprintBtn = document.getElementById('reprintBtn');
-  const uploadStripPhotosBtn = document.getElementById('uploadStripPhotosBtn');
-  const customStripInput = document.getElementById('customStripInput');
   const cameraFlash = document.getElementById('cameraFlash');
 
-  // Navigation & Toolbar
-  const backToBoothBtn = document.getElementById('backToBoothBtn');
+  // Navigation
   const replayBoothFooterBtn = document.getElementById('replayBoothFooterBtn');
-  const globalAudioBtn = document.getElementById('globalAudioBtn');
-  const globalAudioLabel = document.getElementById('globalAudioLabel');
-  const miniVinylIcon = document.getElementById('miniVinylIcon');
-  const openRsvpQuickBtn = document.getElementById('openRsvpQuickBtn');
 
   // Collage Interactive Elements
   const moviePostcard = document.getElementById('moviePostcard');
@@ -49,7 +40,6 @@
   const modalVinylArcText = document.getElementById('modalVinylArcText');
   const vinylStatusText = document.getElementById('vinylStatusText');
   const zoomVinylBtn = document.getElementById('zoomVinylBtn');
-  const collageStripHolder = document.getElementById('collageStripHolder');
 
   // Modals
   const vinylModal = document.getElementById('vinylModal');
@@ -371,14 +361,12 @@
   }
 
   function syncVinylUI() {
-    vinylDisc.classList.toggle('is-spinning', isMusicPlaying);
-    vinylDiscLarge.classList.toggle('is-spinning', isMusicPlaying);
-    miniVinylIcon.classList.toggle('spinning', isMusicPlaying);
-    vinylNotes.classList.toggle('active', isMusicPlaying);
-    tonearm.classList.toggle('playing', isMusicPlaying);
+    vinylDisc?.classList.toggle('is-spinning', isMusicPlaying);
+    vinylDiscLarge?.classList.toggle('is-spinning', isMusicPlaying);
+    vinylNotes?.classList.toggle('active', isMusicPlaying);
+    tonearm?.classList.toggle('playing', isMusicPlaying);
 
-    vinylRecordBtn.setAttribute('aria-pressed', String(isMusicPlaying));
-    globalAudioBtn.setAttribute('aria-pressed', String(isMusicPlaying));
+    vinylRecordBtn?.setAttribute('aria-pressed', String(isMusicPlaying));
 
     const arcLabel = isMusicPlaying ? 'NOW PLAYING ♫' : 'TAP TO PLAY';
     if (vinylArcText) {
@@ -389,8 +377,9 @@
       modalVinylArcText.textContent = arcLabel;
     }
 
-    globalAudioLabel.textContent = isMusicPlaying ? 'Pause Song' : 'Play Our Song';
-    vinylStatusText.textContent = isMusicPlaying ? 'Playing Our Song' : 'Tap Vinyl to Play Song';
+    if (vinylStatusText) {
+      vinylStatusText.textContent = isMusicPlaying ? 'Playing Our Song' : 'Tap Vinyl to Play Song';
+    }
   }
 
   function toggleWeddingMusic() {
@@ -453,7 +442,6 @@
       boothPhotoStrip.classList.remove('printing-active');
       boothPhotoStrip.classList.add('printed-done');
       openInvitationBtn.classList.add('btn-visible');
-      boothSubControls.classList.add('visible');
     };
 
     // Listen to animationend using event.animation (per modern-web-guidance `motion`)
@@ -470,65 +458,24 @@
     setTimeout(finishPrinting, 2850);
   }
 
-  printButtonPlaque.addEventListener('click', triggerPhotoBoothPrint);
-
-  reprintBtn.addEventListener('click', () => {
-    openInvitationBtn.classList.remove('btn-visible');
-    triggerPhotoBoothPrint();
-  });
-
-  // Allow users to upload 1-4 custom photos for the photo booth strip
-  uploadStripPhotosBtn.addEventListener('click', () => customStripInput.click());
-  collageStripHolder.addEventListener('click', () => customStripInput.click());
-
-  customStripInput.addEventListener('change', (e) => {
-    const files = Array.from(e.target.files || []).slice(0, 4);
-    if (!files.length) return;
-
-    const loaded = [];
-    files.forEach((file) => {
-      const reader = new FileReader();
-      reader.onload = (ev) => {
-        const img = new Image();
-        img.onload = () => {
-          loaded.push(img);
-          if (loaded.length === files.length) {
-            customPhotoImages = loaded;
-            renderAllPhotoStripFrames();
-            if (!invitationView.hidden) {
-              // Subtle highlight on collage strip
-              collageStripHolder.style.transform = 'rotate(0deg) scale(1.06)';
-              setTimeout(() => {
-                collageStripHolder.style.transform = '';
-              }, 500);
-            } else {
-              triggerPhotoBoothPrint();
-            }
-          }
-        };
-        img.src = ev.target.result;
-      };
-      reader.readAsDataURL(file);
-    });
-  });
+  printButtonPlaque?.addEventListener('click', triggerPhotoBoothPrint);
 
   // =========================================================================
   // 4. VIEW TRANSITION: SCREEN 1 (BOOTH) <-> SCREEN 2 (INVITATION COLLAGE)
   // Follows `same-document-transitions` guide from modern-web-guidance
   // =========================================================================
   function openFullInvitation() {
-    // Prepare shared view-transition-name between booth photo strip and collage photo strip
-    boothPhotoStrip.style.viewTransitionName = 'shared-photo-strip';
-    collagePhotoStrip.style.viewTransitionName = '';
-
     const applyDOMSwitch = () => {
-      boothPhotoStrip.style.viewTransitionName = '';
-      collagePhotoStrip.style.viewTransitionName = 'shared-photo-strip';
-      boothView.hidden = true;
-      boothView.classList.remove('active');
-      invitationView.hidden = false;
-      invitationView.classList.add('active');
-      backToBoothBtn.classList.remove('hidden');
+      if (boothPhotoStrip) boothPhotoStrip.style.viewTransitionName = '';
+      if (collagePhotoStrip) collagePhotoStrip.style.viewTransitionName = 'shared-photo-strip';
+      if (boothView) {
+        boothView.hidden = true;
+        boothView.classList.remove('active');
+      }
+      if (invitationView) {
+        invitationView.hidden = false;
+        invitationView.classList.add('active');
+      }
       window.scrollTo({ top: 0, behavior: 'instant' });
     };
 
@@ -538,29 +485,38 @@
       return;
     }
 
-    const transition = document.startViewTransition(() => {
-      applyDOMSwitch();
-    });
+    // Prepare shared view-transition-name between booth photo strip and collage photo strip
+    if (boothPhotoStrip) boothPhotoStrip.style.viewTransitionName = 'shared-photo-strip';
+    if (collagePhotoStrip) collagePhotoStrip.style.viewTransitionName = '';
 
-    transition.finished.finally(() => {
-      // Clean up temporary view-transition-name and route focus for accessibility
-      collagePhotoStrip.style.viewTransitionName = '';
+    try {
+      const transition = document.startViewTransition(() => {
+        applyDOMSwitch();
+      });
+
+      transition.finished.finally(() => {
+        // Clean up temporary view-transition-name and route focus for accessibility
+        if (collagePhotoStrip) collagePhotoStrip.style.viewTransitionName = '';
+        venueHeading?.focus({ preventScroll: true });
+      });
+    } catch {
+      applyDOMSwitch();
       venueHeading?.focus({ preventScroll: true });
-    });
+    }
   }
 
   function returnToPhotoBooth() {
-    collagePhotoStrip.style.viewTransitionName = 'shared-photo-strip';
-    boothPhotoStrip.style.viewTransitionName = '';
-
     const applyDOMReturn = () => {
-      collagePhotoStrip.style.viewTransitionName = '';
-      boothPhotoStrip.style.viewTransitionName = 'shared-photo-strip';
-      invitationView.hidden = true;
-      invitationView.classList.remove('active');
-      boothView.hidden = false;
-      boothView.classList.add('active');
-      backToBoothBtn.classList.add('hidden');
+      if (collagePhotoStrip) collagePhotoStrip.style.viewTransitionName = '';
+      if (boothPhotoStrip) boothPhotoStrip.style.viewTransitionName = 'shared-photo-strip';
+      if (invitationView) {
+        invitationView.hidden = true;
+        invitationView.classList.remove('active');
+      }
+      if (boothView) {
+        boothView.hidden = false;
+        boothView.classList.add('active');
+      }
       window.scrollTo({ top: 0, behavior: 'instant' });
     };
 
@@ -570,19 +526,26 @@
       return;
     }
 
-    const transition = document.startViewTransition(() => {
-      applyDOMReturn();
-    });
+    if (collagePhotoStrip) collagePhotoStrip.style.viewTransitionName = 'shared-photo-strip';
+    if (boothPhotoStrip) boothPhotoStrip.style.viewTransitionName = '';
 
-    transition.finished.finally(() => {
-      boothPhotoStrip.style.viewTransitionName = '';
+    try {
+      const transition = document.startViewTransition(() => {
+        applyDOMReturn();
+      });
+
+      transition.finished.finally(() => {
+        if (boothPhotoStrip) boothPhotoStrip.style.viewTransitionName = '';
+        boothHeading?.focus({ preventScroll: true });
+      });
+    } catch {
+      applyDOMReturn();
       boothHeading?.focus({ preventScroll: true });
-    });
+    }
   }
 
-  openInvitationBtn.addEventListener('click', openFullInvitation);
-  backToBoothBtn.addEventListener('click', returnToPhotoBooth);
-  replayBoothFooterBtn.addEventListener('click', returnToPhotoBooth);
+  openInvitationBtn?.addEventListener('click', openFullInvitation);
+  replayBoothFooterBtn?.addEventListener('click', returnToPhotoBooth);
 
   // =========================================================================
   // 5. LIVE WEDDING MOVIE POSTCARD CINEMAGRAPH (00:18 "wedding movie postcard")
@@ -685,10 +648,10 @@
   }
   requestAnimationFrame(renderPostcardCinemagraph);
 
-  moviePostcard.addEventListener('click', () => {
+  moviePostcard?.addEventListener('click', () => {
     moviePostcard.classList.toggle('cinema-expanded');
   });
-  moviePostcard.addEventListener('keydown', (e) => {
+  moviePostcard?.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
       moviePostcard.classList.toggle('cinema-expanded');
@@ -698,16 +661,15 @@
   // =========================================================================
   // 6. VINYL TURNTABLE CONTROLS & CUSTOM MP3 UPLOAD
   // =========================================================================
-  vinylRecordBtn.addEventListener('click', toggleWeddingMusic);
-  globalAudioBtn.addEventListener('click', toggleWeddingMusic);
-  modalPlayToggleBtn.addEventListener('click', toggleWeddingMusic);
-  vinylDiscLarge.addEventListener('click', toggleWeddingMusic);
+  vinylRecordBtn?.addEventListener('click', toggleWeddingMusic);
+  modalPlayToggleBtn?.addEventListener('click', toggleWeddingMusic);
+  vinylDiscLarge?.addEventListener('click', toggleWeddingMusic);
 
-  zoomVinylBtn.addEventListener('click', () => {
-    vinylModal.showModal();
+  zoomVinylBtn?.addEventListener('click', () => {
+    vinylModal?.showModal();
   });
 
-  customAudioInput.addEventListener('change', (e) => {
+  customAudioInput?.addEventListener('change', (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
     const url = URL.createObjectURL(file);
@@ -723,29 +685,60 @@
   });
 
   // =========================================================================
-  // 7. LIVE WEDDING COUNTDOWN TIMER
+  // 7. LIVE WEDDING COUNTDOWN TIMER (Synced to Event Date: December 17, 2026)
+  // Follows `calculate-event-differentials` guide from modern-web-guidance
   // =========================================================================
-  const weddingTargetDate = new Date('2027-10-24T15:30:00+08:00').getTime();
+  const eventDateEl = document.getElementById('eventDateDisplay') || document.querySelector('.card-serif-emphasis');
+  const eventDateStr = eventDateEl?.dataset.eventDate || '2026-12-17';
+  const eventTimeStr = eventDateEl?.dataset.eventTime || '15:30:00';
+  const eventTz = eventDateEl?.dataset.eventTz || 'Asia/Manila';
+
   const cdDays = document.getElementById('cdDays');
   const cdHours = document.getElementById('cdHours');
   const cdMinutes = document.getElementById('cdMinutes');
   const cdSeconds = document.getElementById('cdSeconds');
 
   function updateCountdown() {
-    const now = Date.now();
-    const diff = Math.max(0, weddingTargetDate - now);
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-    const mins = Math.floor((diff / (1000 * 60)) % 60);
-    const secs = Math.floor((diff / 1000) % 60);
+    if (typeof Temporal !== 'undefined') {
+      const now = Temporal.Now.zonedDateTimeISO(eventTz);
+      // Combine separate date and time strings directly via Temporal methods (no template literal interpolation)
+      const end = Temporal.PlainDate.from(eventDateStr)
+        .toPlainDateTime(eventTimeStr)
+        .toZonedDateTime(eventTz);
 
-    if (cdDays) cdDays.textContent = String(days).padStart(2, '0');
-    if (cdHours) cdHours.textContent = String(hours).padStart(2, '0');
-    if (cdMinutes) cdMinutes.textContent = String(mins).padStart(2, '0');
-    if (cdSeconds) cdSeconds.textContent = String(secs).padStart(2, '0');
+      const timeRemaining = now.until(end, { largestUnit: 'day', smallestUnit: 'second' });
+      const isExpired = timeRemaining.sign < 0;
+
+      const days = isExpired ? 0 : timeRemaining.days;
+      const hours = isExpired ? 0 : timeRemaining.hours;
+      const mins = isExpired ? 0 : timeRemaining.minutes;
+      const secs = isExpired ? 0 : timeRemaining.seconds;
+
+      if (cdDays) cdDays.textContent = String(days).padStart(2, '0');
+      if (cdHours) cdHours.textContent = String(hours).padStart(2, '0');
+      if (cdMinutes) cdMinutes.textContent = String(mins).padStart(2, '0');
+      if (cdSeconds) cdSeconds.textContent = String(secs).padStart(2, '0');
+    }
   }
-  updateCountdown();
-  setInterval(updateCountdown, 1000);
+
+  function startCountdownLoop() {
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+  }
+
+  // Check if Temporal is supported natively; conditionally load polyfill if needed
+  (async () => {
+    if (typeof Temporal === 'undefined') {
+      try {
+        const module = await import('https://esm.sh/@js-temporal/polyfill');
+        globalThis.Temporal = module.Temporal;
+        Date.prototype.toTemporalInstant = module.toTemporalInstant;
+      } catch {
+        // Offline environment without native Temporal
+      }
+    }
+    startCountdownLoop();
+  })();
 
   // =========================================================================
   // 8. INTERACTIVE BOTANICAL SWATCH INSPECTOR (From Photo 1)
@@ -778,8 +771,7 @@
   // 9. WAX-SEAL RSVP MODAL & LIGHT-DISMISS FALLBACK
   // Follows `light-dismiss-a-dialog` guide from modern-web-guidance
   // =========================================================================
-  waxSealRsvpBtn.addEventListener('click', () => rsvpModal.showModal());
-  openRsvpQuickBtn.addEventListener('click', () => rsvpModal.showModal());
+  waxSealRsvpBtn?.addEventListener('click', () => rsvpModal?.showModal());
 
   document.querySelectorAll('[data-close-dialog]').forEach((btn) => {
     btn.addEventListener('click', () => {
@@ -805,7 +797,7 @@
     });
   }
 
-  rsvpForm.addEventListener('submit', (e) => {
+  rsvpForm?.addEventListener('submit', (e) => {
     e.preventDefault();
     const formData = new FormData(rsvpForm);
     const guestName = formData.get('guestName') || 'Honored Guest';

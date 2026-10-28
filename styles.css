@@ -99,84 +99,6 @@ body {
 }
 
 /* ==========================================================================
-   FLOATING TOP UTILITY BAR
-   ========================================================================== */
-.floating-toolbar {
-  position: fixed;
-  top: 14px;
-  left: 50%;
-  translate: -50% 0;
-  z-index: 90;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 10px;
-  border-radius: 999px;
-  background: rgba(252, 249, 244, 0.84);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(176, 83, 52, 0.22);
-  box-shadow: 0 8px 24px rgba(54, 35, 27, 0.1);
-}
-
-.toolbar-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 13px;
-  border-radius: 999px;
-  border: 1px solid transparent;
-  background: transparent;
-  color: var(--ink-espresso);
-  font-family: var(--font-sans);
-  font-size: 0.68rem;
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: background-color 0.25s ease, transform 0.2s ease, border-color 0.25s ease;
-  white-space: nowrap;
-}
-
-.toolbar-pill:hover {
-  background: rgba(201, 140, 80, 0.15);
-  border-color: rgba(201, 140, 80, 0.35);
-}
-
-.toolbar-pill:active {
-  scale: 0.96;
-}
-
-.toolbar-pill-accent {
-  background: var(--terracotta);
-  color: var(--bg-parchment);
-}
-
-.toolbar-pill-accent:hover {
-  background: var(--terracotta-deep);
-  color: #fff;
-}
-
-.toolbar-pill.hidden {
-  display: none;
-}
-
-.vinyl-mini-icon {
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: radial-gradient(circle, var(--cream-daffodil) 26%, #241914 28%, #3B2820 55%, #1D1410 100%);
-  border: 1px solid var(--amber-banyan);
-  display: inline-block;
-}
-
-.vinyl-mini-icon.spinning {
-  animation: spinVinyl 2.8s linear infinite;
-  @media (prefers-reduced-motion: reduce) {
-    animation-duration: 18s;
-  }
-}
-
-/* ==========================================================================
    MAIN INVITATION STAGE & VIEW TRANSITIONS
    ========================================================================== */
 .invitation-stage {
@@ -187,7 +109,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 68px 16px 40px;
+  padding: 32px 16px 40px;
 }
 
 .view-screen {
@@ -741,21 +663,6 @@ body {
   background: var(--terracotta);
   color: var(--bg-parchment);
   transform: translateY(-2px);
-}
-
-.booth-sub-controls {
-  margin-top: 10px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.4s ease;
-}
-
-.booth-sub-controls.visible {
-  opacity: 1;
-  pointer-events: auto;
 }
 
 .subtle-text-btn {

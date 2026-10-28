@@ -15,21 +15,6 @@
   <canvas id="petalCanvas" class="ambient-canvas" aria-hidden="true"></canvas>
   <div class="paper-grain-overlay" aria-hidden="true"></div>
 
-  <!-- Top Floating Utility Bar (Audio Status, View Switcher, Customize Photos) -->
-  <header class="floating-toolbar" aria-label="Invitation controls">
-    <button type="button" id="backToBoothBtn" class="toolbar-pill hidden" aria-label="Return to photo booth">
-      <span class="pill-icon">🎞️</span>
-      <span>Photo Booth</span>
-    </button>
-    <button type="button" id="globalAudioBtn" class="toolbar-pill" aria-pressed="false" aria-label="Toggle wedding song">
-      <span class="vinyl-mini-icon" id="miniVinylIcon"></span>
-      <span id="globalAudioLabel">Play Our Song</span>
-    </button>
-    <button type="button" id="openRsvpQuickBtn" class="toolbar-pill toolbar-pill-accent">
-      <span>Wax Seal RSVP</span>
-    </button>
-  </header>
-
   <!-- Camera Flash Overlay for Photo Booth Print Effect -->
   <div id="cameraFlash" class="camera-flash" aria-hidden="true"></div>
 
@@ -111,7 +96,7 @@
                     </div>
                     <footer class="strip-caption">
                       <span class="strip-couple-sig">Clifford &amp; Jessa</span>
-                      <span class="strip-date-mini">10 . 24 . 2027</span>
+                      <span class="strip-date-mini">12 . 17 . 2026</span>
                     </footer>
                   </article>
                 </div>
@@ -122,7 +107,7 @@
 
         <!-- Bottom Stage: Date + "OPEN INVITATION" Button (Reveals after printing) -->
         <div class="booth-footer-area">
-          <p id="boothDateDisplay" class="editorial-date-large">10. 24. 2027</p>
+          <p id="boothDateDisplay" class="editorial-date-large">12. 17. 2026</p>
 
           <div class="booth-actions-row">
             <button
@@ -132,16 +117,6 @@
               aria-label="Open full wedding invitation"
             >
               <span>OPEN INVITATION</span>
-            </button>
-          </div>
-
-          <div class="booth-sub-controls" id="boothSubControls">
-            <button type="button" id="reprintBtn" class="subtle-text-btn">
-              ↻ Reprint Strip
-            </button>
-            <span class="dot-sep" aria-hidden="true">•</span>
-            <button type="button" id="uploadStripPhotosBtn" class="subtle-text-btn">
-              📷 Use Your Own Photos
             </button>
           </div>
         </div>
@@ -161,7 +136,7 @@
             Birhen sa Kasilak<br />
             <span class="venue-city-script">Butuan City</span>
           </h2>
-          <p class="hero-full-date">SATURDAY, OCTOBER 24, 2027</p>
+          <p class="hero-full-date" id="heroFullDate">THURSDAY, DECEMBER 17, 2026</p>
           <div class="ornamental-divider" aria-hidden="true">
             <span class="divider-line"></span>
             <span class="divider-diamond">✦</span>
@@ -294,7 +269,7 @@
                 </div>
                 <footer class="strip-caption">
                   <span class="strip-couple-sig">Clifford &amp; Jessa</span>
-                  <span class="strip-date-mini">10 . 24 . 2027</span>
+                  <span class="strip-date-mini">12 . 17 . 2026</span>
                 </footer>
               </div>
             </div>
@@ -303,7 +278,13 @@
             <article class="formal-invitation-card" aria-label="Formal Invitation Note">
               <div class="card-inner-border">
                 <p class="card-small-caps">THE CELEBRATION IS TO BE HELD ON</p>
-                <p class="card-serif-emphasis">DECEMBER 17, 2026</p>
+                <p
+                  class="card-serif-emphasis"
+                  id="eventDateDisplay"
+                  data-event-date="2026-12-17"
+                  data-event-time="15:30:00"
+                  data-event-tz="Asia/Manila"
+                >DECEMBER 17, 2026</p>
                 <p class="card-serif-sub">BIRHEN SA KASILAK, BRGY. BADING, BUTUAN CITY</p>
 
                 <hr class="card-hairline" />
@@ -323,12 +304,12 @@
           </div>
         </section>
 
-        <!-- 3. COUNTDOWN TIMER SECTION ("WE HOPE YOU CAN JOIN US IN..." at 00:08 - 00:14) -->
+          <!-- 3. COUNTDOWN TIMER SECTION ("WE HOPE YOU CAN JOIN US IN..." at 00:08 - 00:14) -->
         <section class="countdown-section scroll-reveal" aria-label="Wedding Countdown">
           <p class="eyebrow-tracked">WE HOPE YOU CAN JOIN US IN...</p>
           <div class="countdown-grid" id="countdownGrid" role="timer" aria-live="off">
             <div class="countdown-cell">
-              <span class="countdown-num" id="cdDays">360</span>
+              <span class="countdown-num" id="cdDays">49</span>
               <span class="countdown-label">DAYS</span>
             </div>
             <span class="countdown-colon" aria-hidden="true">:</span>
@@ -338,12 +319,12 @@
             </div>
             <span class="countdown-colon" aria-hidden="true">:</span>
             <div class="countdown-cell">
-              <span class="countdown-num" id="cdMinutes">28</span>
+              <span class="countdown-num" id="cdMinutes">30</span>
               <span class="countdown-label">MINUTES</span>
             </div>
             <span class="countdown-colon" aria-hidden="true">:</span>
             <div class="countdown-cell">
-              <span class="countdown-num" id="cdSeconds">45</span>
+              <span class="countdown-num" id="cdSeconds">00</span>
               <span class="countdown-label">SECONDS</span>
             </div>
           </div>
@@ -516,7 +497,7 @@
         <section class="rsvp-envelope-section scroll-reveal" aria-labelledby="rsvpSectionHeading">
           <div class="terracotta-envelope-card">
             <div class="envelope-flap-graphic" aria-hidden="true"></div>
-            <p class="eyebrow-tracked">KINDLY RESPOND BY SEPTEMBER 15, 2027</p>
+            <p class="eyebrow-tracked">KINDLY RESPOND BY DECEMBER 10, 2026</p>
             <h3 id="rsvpSectionHeading" class="section-script-title">Reserve Your Seat</h3>
             <p class="section-body-copy">
               Tap the terracotta wax seal below to open your personal RSVP card, select your dinner entrée, and request a song for our vinyl turntable.
@@ -540,7 +521,7 @@
 
         <footer class="invitation-footer">
           <p class="couple-script-footer">Clifford &amp; Jessa</p>
-          <p class="footer-meta">OCTOBER 24, 2027 • #CliffordAndJessaForever</p>
+          <p class="footer-meta">DECEMBER 17, 2026</p>
           <button type="button" id="replayBoothFooterBtn" class="subtle-text-btn">
             ↑ Return to Photo Booth Dispenser
           </button>
@@ -673,9 +654,6 @@
       </form>
     </div>
   </dialog>
-
-  <!-- Hidden File Input for Custom Couple Photo Strip Upload -->
-  <input type="file" id="customStripInput" accept="image/*" multiple hidden />
 
   <script src="script.js"></script>
 </body>
