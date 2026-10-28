@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Clifford &amp; Jessa — Save the Date &amp; Wedding Invitation</title>
+  <!-- Google Fonts for Editorial Serif, Sweeping Calligraphy & Engraved Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=Great+Vibes&family=Montserrat:wght@300;400;500;600&family=Pinyon+Script&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Ambient Floating Botanical Petals & Warm Sunlight Overlay -->
+  <canvas id="petalCanvas" class="ambient-canvas" aria-hidden="true"></canvas>
+  <div class="paper-grain-overlay" aria-hidden="true"></div>
+
+  <!-- Top Floating Utility Bar (Audio Status, View Switcher, Customize Photos) -->
+  <header class="floating-toolbar" aria-label="Invitation controls">
+    <button type="button" id="backToBoothBtn" class="toolbar-pill hidden" aria-label="Return to photo booth">
+      <span class="pill-icon">🎞️</span>
+      <span>Photo Booth</span>
+    </button>
+    <button type="button" id="globalAudioBtn" class="toolbar-pill" aria-pressed="false" aria-label="Toggle wedding song">
+      <span class="vinyl-mini-icon" id="miniVinylIcon"></span>
+      <span id="globalAudioLabel">Play Our Song</span>
+    </button>
+    <button type="button" id="openRsvpQuickBtn" class="toolbar-pill toolbar-pill-accent">
+      <span>Wax Seal RSVP</span>
+    </button>
+  </header>
+
+  <!-- Camera Flash Overlay for Photo Booth Print Effect -->
+  <div id="cameraFlash" class="camera-flash" aria-hidden="true"></div>
+
+  <main class="invitation-stage" id="invitationStage">
+    <!-- =====================================================================
+         VIEW 1: INTERACTIVE PHOTO BOOTH DISPENSER (00:00 - 00:06 in Video)
+         ===================================================================== -->
+    <section id="boothView" class="view-screen booth-screen active" aria-labelledby="boothHeading">
+      <div class="phone-card-shell">
+        <!-- Subtle Botanical Corner Shadow & Dried Palm Accent -->
+        <div class="botanical-shadow-top" aria-hidden="true"></div>
+
+        <!-- Top Stage: Swaps from Metallic "PRESS THE BUTTON TO PRINT!" Plaque to "WE ARE GETTING MARRIED! Clifford & Jessa" -->
+        <div class="booth-header-slot">
+          <!-- State A: Interactive Metallic Push-Button Plaque (00:00 - 00:01) -->
+          <button
+            type="button"
+            id="printButtonPlaque"
+            class="metallic-plaque-btn"
+            aria-label="Press the button to print Save the Date photo strip"
+          >
+            <span class="rivet rivet-tl" aria-hidden="true"></span>
+            <span class="rivet rivet-tr" aria-hidden="true"></span>
+            <span class="rivet rivet-bl" aria-hidden="true"></span>
+            <span class="rivet rivet-br" aria-hidden="true"></span>
+            <span class="plaque-shimmer" aria-hidden="true"></span>
+            <span class="plaque-text">
+              PRESS THE<br />BUTTON TO<br />PRINT!
+            </span>
+            <span class="plaque-tap-ring" aria-hidden="true"></span>
+          </button>
+
+          <!-- State B: Revealed Wedding Announcement Header (00:02 - 00:06) -->
+          <div id="marriedHeader" class="married-header" aria-live="polite">
+            <p class="eyebrow-tracked">WE ARE GETTING MARRIED!</p>
+            <h1 id="boothHeading" class="couple-script-title" tabindex="-1">
+              Clifford <span class="amp">&amp;</span> Jessa
+            </h1>
+          </div>
+        </div>
+
+        <!-- Center Stage: Metallic Photo Booth Dispenser Chute -->
+        <div class="dispenser-outer-frame" id="dispenserFrame">
+          <div class="dispenser-bezel-step-1">
+            <div class="dispenser-bezel-step-2">
+              <div class="dispenser-recessed-chute">
+                <!-- Top Printer Slot Lip & Shadow -->
+                <div class="printer-slot-opening" aria-hidden="true">
+                  <div class="printer-status-led" id="printerLed"></div>
+                </div>
+
+                <!-- Engraved Inner Plate ("Save the Date" script shown inside the metal chute) -->
+                <div class="chute-engraving" id="chuteEngraving" aria-hidden="true">
+                  <span class="engraved-script">Save<br />the<br />Date</span>
+                </div>
+
+                <!-- Printed 4-Frame Photo Strip (Slides down from top printer slot!) -->
+                <div class="printed-strip-viewport" id="stripViewport">
+                  <article
+                    id="boothPhotoStrip"
+                    class="photo-strip"
+                    aria-label="Printed 4-frame wedding photo strip of Clifford and Jessa"
+                  >
+                    <div class="strip-frame" data-frame="0">
+                      <canvas class="couple-frame-canvas" width="260" height="190" data-pose="1"></canvas>
+                      <span class="frame-vintage-gloss"></span>
+                    </div>
+                    <div class="strip-frame" data-frame="1">
+                      <canvas class="couple-frame-canvas" width="260" height="190" data-pose="2"></canvas>
+                      <span class="frame-vintage-gloss"></span>
+                    </div>
+                    <div class="strip-frame" data-frame="2">
+                      <canvas class="couple-frame-canvas" width="260" height="190" data-pose="3"></canvas>
+                      <span class="frame-vintage-gloss"></span>
+                    </div>
+                    <div class="strip-frame" data-frame="3">
+                      <canvas class="couple-frame-canvas" width="260" height="190" data-pose="4"></canvas>
+                      <span class="frame-vintage-gloss"></span>
+                    </div>
+                    <footer class="strip-caption">
+                      <span class="strip-couple-sig">Clifford &amp; Jessa</span>
+                      <span class="strip-date-mini">10 . 24 . 2027</span>
+                    </footer>
+                  </article>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom Stage: Date + "OPEN INVITATION" Button (Reveals after printing) -->
+        <div class="booth-footer-area">
+          <p id="boothDateDisplay" class="editorial-date-large">10. 24. 2027</p>
+
+          <div class="booth-actions-row">
+            <button
+              type="button"
+              id="openInvitationBtn"
+              class="open-invitation-btn"
+              aria-label="Open full wedding invitation"
+            >
+              <span>OPEN INVITATION</span>
+            </button>
+          </div>
+
+          <div class="booth-sub-controls" id="boothSubControls">
+            <button type="button" id="reprintBtn" class="subtle-text-btn">
+              ↻ Reprint Strip
+            </button>
+            <span class="dot-sep" aria-hidden="true">•</span>
+            <button type="button" id="uploadStripPhotosBtn" class="subtle-text-btn">
+              📷 Use Your Own Photos
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         VIEW 2: FULL EDITORIAL COLLAGE & INTERACTIVE INVITATION (00:07 - 00:22)
+         ===================================================================== -->
+    <section id="invitationView" class="view-screen invitation-screen" aria-labelledby="venueHeading" hidden>
+      <div class="invitation-scroll-container">
+
+        <!-- 1. HERO VENUE & DATE HEADER ("MEET US AT..." at 00:07) -->
+        <header class="invitation-hero-header scroll-reveal">
+          <p class="eyebrow-tracked">MEET US AT</p>
+          <h2 id="venueHeading" class="venue-script-heading" tabindex="-1">
+            Birhen sa Kasilak<br />
+            <span class="venue-city-script">Butuan City</span>
+          </h2>
+          <p class="hero-full-date">SATURDAY, OCTOBER 24, 2027</p>
+          <div class="ornamental-divider" aria-hidden="true">
+            <span class="divider-line"></span>
+            <span class="divider-diamond">✦</span>
+            <span class="divider-line"></span>
+          </div>
+        </header>
+
+        <!-- 2. SIGNATURE EDITORIAL COLLAGE STAGE (00:07 - 00:22 in Video) -->
+        <section class="editorial-collage-section" aria-label="Interactive Save the Date Collage">
+          <div class="collage-stage">
+
+            <!-- A. WEDDING MOVIE POSTCARD (Tilted Top Card with Live Romantic Cinemagraph - 00:18) -->
+            <div class="movie-postcard-wrapper" id="moviePostcard" role="button" tabindex="0" aria-label="Wedding movie postcard — click to toggle full cinema mode">
+              <div class="postcard-inner">
+                <!-- Live Animated Golden-Hour Couple & Terracotta Floral Cinemagraph Canvas -->
+                <canvas id="postcardCinemaCanvas" class="postcard-cinema-canvas" width="680" height="440"></canvas>
+                <div class="postcard-warm-vignette"></div>
+
+                <!-- Top-Right Invitation Micro-Copy -->
+                <div class="postcard-top-right-copy">
+                  WE KINDLY INVITE YOU TO<br />
+                  OUR WEDDING<br />
+                  WITH LOVE
+                </div>
+
+                <!-- Sweeping "Save the Date" Typography Overlay (Matches 00:11 & 00:19) -->
+                <div class="postcard-save-the-date-overlay">
+                  <span class="std-save">Save</span>
+                  <span class="std-the">the</span>
+                  <span class="std-date">Date</span>
+                </div>
+
+                <!-- Bottom Pill Badge & Film Indicator -->
+                <div class="postcard-bottom-bar">
+                  <span class="film-live-badge">
+                    <span class="film-dot"></span> WEDDING FILM POSTCARD
+                  </span>
+                  <span class="postcard-couple-pill">Clifford &amp; Jessa</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- B. INTERACTIVE SPINNING VINYL RECORD ("embed your wedding song" - 00:08 & 00:15) -->
+            <div class="vinyl-player-cluster" id="vinylCluster">
+              <button
+                type="button"
+                id="vinylRecordBtn"
+                class="vinyl-record-btn"
+                aria-pressed="false"
+                aria-label="Tap to play Clifford and Jessa's wedding song on vinyl"
+              >
+                <div class="vinyl-disc" id="vinylDisc">
+                  <!-- Grooves & Anisotropic Sheen -->
+                  <div class="vinyl-grooves"></div>
+                  <div class="vinyl-sheen"></div>
+
+                  <!-- Center Cream & Terracotta Record Label with Monogram & Curved "TAP TO PLAY" -->
+                  <div class="vinyl-center-label">
+                    <svg viewBox="0 0 200 200" class="vinyl-label-svg" aria-hidden="true">
+                      <defs>
+                        <path id="topArc" d="M 32,100 A 68,68 0 1,1 168,100" />
+                        <path id="bottomArc" d="M 174,100 A 74,74 0 1,1 26,100" />
+                      </defs>
+                      <!-- Outer decorative terracotta ring -->
+                      <circle cx="100" cy="100" r="94" fill="none" stroke="#B05334" stroke-width="1.2" stroke-opacity="0.45" />
+                      <circle cx="100" cy="100" r="88" fill="none" stroke="#C98C50" stroke-width="0.7" stroke-dasharray="3 3" stroke-opacity="0.6" />
+
+                      <!-- Top curved song title -->
+                      <text class="vinyl-arc-subtext">
+                        <textPath href="#topArc" startOffset="50%" text-anchor="middle">
+                          OUR WEDDING SONG • C &amp; J
+                        </textPath>
+                      </text>
+
+                      <!-- Center Calligraphic Monogram Flourish (Like 00:15 in video) -->
+                      <path
+                        d="M 52,108 C 65,68 95,65 88,98 C 82,122 60,118 72,96 C 85,72 122,74 116,105 C 112,126 138,118 148,88"
+                        fill="none"
+                        stroke="#5A3828"
+                        stroke-width="2.2"
+                        stroke-linecap="round"
+                      />
+                      <text x="100" y="108" text-anchor="middle" class="vinyl-monogram-text">C &amp; J</text>
+
+                      <!-- Bottom Curved "TAP TO PLAY" (Exact match to 00:15 in video) -->
+                      <text class="vinyl-arc-tap" id="vinylArcText">
+                        <textPath href="#bottomArc" startOffset="50%" text-anchor="middle">
+                          TAP TO PLAY
+                        </textPath>
+                      </text>
+                    </svg>
+                    <span class="vinyl-spindle-hole"></span>
+                  </div>
+                </div>
+              </button>
+
+              <!-- Floating Musical Notes When Playing -->
+              <div class="vinyl-notes-emitter" id="vinylNotes" aria-hidden="true">
+                <span class="note n1">♪</span>
+                <span class="note n2">♫</span>
+                <span class="note n3">♩</span>
+              </div>
+
+              <div class="vinyl-controls-caption">
+                <button type="button" id="zoomVinylBtn" class="vinyl-caption-pill">
+                  <span id="vinylStatusText">Tap Vinyl to Play Song</span>
+                  <span aria-hidden="true">↗</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- C. OVERLAPPING 4-FRAME PHOTO BOOTH STRIP (Right Side Tilted - 00:08 to 00:14) -->
+            <div class="collage-strip-holder" id="collageStripHolder" title="Click to inspect or customize photo strip">
+              <div class="photo-strip collage-photo-strip" id="collagePhotoStrip">
+                <div class="strip-frame">
+                  <canvas class="couple-frame-canvas" width="260" height="190" data-pose="1"></canvas>
+                  <span class="frame-vintage-gloss"></span>
+                </div>
+                <div class="strip-frame">
+                  <canvas class="couple-frame-canvas" width="260" height="190" data-pose="2"></canvas>
+                  <span class="frame-vintage-gloss"></span>
+                </div>
+                <div class="strip-frame">
+                  <canvas class="couple-frame-canvas" width="260" height="190" data-pose="3"></canvas>
+                  <span class="frame-vintage-gloss"></span>
+                </div>
+                <div class="strip-frame">
+                  <canvas class="couple-frame-canvas" width="260" height="190" data-pose="4"></canvas>
+                  <span class="frame-vintage-gloss"></span>
+                </div>
+                <footer class="strip-caption">
+                  <span class="strip-couple-sig">Clifford &amp; Jessa</span>
+                  <span class="strip-date-mini">10 . 24 . 2027</span>
+                </footer>
+              </div>
+            </div>
+
+            <!-- D. FORMAL HANDMADE CALLIGRAPHY INVITATION CARD (00:08 - 00:14) -->
+            <article class="formal-invitation-card" aria-label="Formal Invitation Note">
+              <div class="card-inner-border">
+                <p class="card-small-caps">THE CELEBRATION IS TO BE HELD ON</p>
+                <p class="card-serif-emphasis">DECEMBER 17, 2026</p>
+                <p class="card-serif-sub">BIRHEN SA KASILAK, BRGY. BADING, BUTUAN CITY</p>
+
+                <hr class="card-hairline" />
+
+                <blockquote class="handwritten-note">
+                  We'd love for you to join us<br />
+                  at the wedding!<br />
+                  <span class="handwritten-signoff">xx Clifford &amp; Jessa</span>
+                </blockquote>
+
+                <hr class="card-hairline" />
+
+                <p class="card-footer-caps">RECEPTION &amp; DINNER TO FOLLOW</p>
+              </div>
+            </article>
+
+          </div>
+        </section>
+
+        <!-- 3. COUNTDOWN TIMER SECTION ("WE HOPE YOU CAN JOIN US IN..." at 00:08 - 00:14) -->
+        <section class="countdown-section scroll-reveal" aria-label="Wedding Countdown">
+          <p class="eyebrow-tracked">WE HOPE YOU CAN JOIN US IN...</p>
+          <div class="countdown-grid" id="countdownGrid" role="timer" aria-live="off">
+            <div class="countdown-cell">
+              <span class="countdown-num" id="cdDays">360</span>
+              <span class="countdown-label">DAYS</span>
+            </div>
+            <span class="countdown-colon" aria-hidden="true">:</span>
+            <div class="countdown-cell">
+              <span class="countdown-num" id="cdHours">14</span>
+              <span class="countdown-label">HOURS</span>
+            </div>
+            <span class="countdown-colon" aria-hidden="true">:</span>
+            <div class="countdown-cell">
+              <span class="countdown-num" id="cdMinutes">28</span>
+              <span class="countdown-label">MINUTES</span>
+            </div>
+            <span class="countdown-colon" aria-hidden="true">:</span>
+            <div class="countdown-cell">
+              <span class="countdown-num" id="cdSeconds">45</span>
+              <span class="countdown-label">SECONDS</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- 4. BOTANICAL COLOR PALETTE & DRESS CODE (Directly from Attached Floral & Moodboard Photos) -->
+        <section class="palette-section scroll-reveal" aria-labelledby="paletteHeading">
+          <p class="eyebrow-tracked">DRESS CODE &amp; BOTANICAL MOOD</p>
+          <h3 id="paletteHeading" class="section-script-title">Sunset Terracotta &amp; Cream</h3>
+          <p class="section-body-copy">
+            We kindly invite our guests to dress in formal garden attire inspired by our warm autumn botanical palette. Tap any floral swatch below to explore the shade.
+          </p>
+
+          <!-- Interactive 5 Floral Swatches from Photo 1 -->
+          <div class="floral-swatch-row" role="listbox" aria-label="Wedding Color Palette Swatches">
+            <button
+              type="button"
+              class="swatch-item active"
+              role="option"
+              aria-selected="true"
+              data-color="#F2E4CE"
+              data-name="Cream Daffodils"
+              data-desc="Soft sunlit ivory &amp; warm champagne silk tones"
+            >
+              <span class="swatch-circle" style="--swatch-hex: #F2E4CE;"></span>
+              <span class="swatch-flower-tag">CREAM</span>
+              <span class="swatch-flower-name">DAFFODILS</span>
+            </button>
+
+            <button
+              type="button"
+              class="swatch-item"
+              role="option"
+              aria-selected="false"
+              data-color="#C98C50"
+              data-name="Amber Banyan Leaves"
+              data-desc="Golden honeyed amber, warm ochre &amp; bronze accents"
+            >
+              <span class="swatch-circle" style="--swatch-hex: #C98C50;"></span>
+              <span class="swatch-flower-tag">AMBER</span>
+              <span class="swatch-flower-name">BANYAN LEAVES</span>
+            </button>
+
+            <button
+              type="button"
+              class="swatch-item"
+              role="option"
+              aria-selected="false"
+              data-color="#F7F1E8"
+              data-name="Cream Blooming Peony"
+              data-desc="Delicate alabaster, pearl linen &amp; soft cream tailoring"
+            >
+              <span class="swatch-circle" style="--swatch-hex: #F7F1E8;"></span>
+              <span class="swatch-flower-tag">CREAM</span>
+              <span class="swatch-flower-name">BLOOMING PEONY</span>
+            </button>
+
+            <button
+              type="button"
+              class="swatch-item"
+              role="option"
+              aria-selected="false"
+              data-color="#D88046"
+              data-name="Sunset Yellow Vendela Rose"
+              data-desc="Radiant sunset apricot, warm peach &amp; marigold undertones"
+            >
+              <span class="swatch-circle" style="--swatch-hex: #D88046;"></span>
+              <span class="swatch-flower-tag">SUNSET YELLOW</span>
+              <span class="swatch-flower-name">VENDELA ROSE</span>
+            </button>
+
+            <button
+              type="button"
+              class="swatch-item"
+              role="option"
+              aria-selected="false"
+              data-color="#B05334"
+              data-name="Terracotta Anthuriums"
+              data-desc="Rich burnt sienna, spiced terracotta &amp; rust velvet"
+            >
+              <span class="swatch-circle" style="--swatch-hex: #B05334;"></span>
+              <span class="swatch-flower-tag">TERRACOTTA</span>
+              <span class="swatch-flower-name">ANTHURIUMS</span>
+            </button>
+          </div>
+
+          <!-- Active Swatch Detail Banner -->
+          <div class="swatch-inspector-card" id="swatchInspector">
+            <span class="inspector-dot" id="inspectorDot" style="background: #F2E4CE;"></span>
+            <div class="inspector-copy">
+              <strong id="inspectorTitle">Cream Daffodils (#F2E4CE)</strong>
+              <p id="inspectorDesc">Soft sunlit ivory &amp; warm champagne silk tones</p>
+            </div>
+          </div>
+
+          <!-- Interactive Moodboard & Floral Gallery from Uploaded Photos -->
+          <div class="moodboard-bento-grid">
+            <figure class="bento-card bento-tall">
+              <img src="assets/floral-palette.png" alt="Bridal bouquet featuring Cream Daffodils, Amber Banyan Leaves, Cream Blooming Peony, Sunset Yellow Vendela Rose, and Terracotta Anthuriums" loading="lazy" />
+              <figcaption>The Signature Bouquet</figcaption>
+            </figure>
+            <figure class="bento-card">
+              <img src="assets/ceremony-arch.png" alt="Golden hour floral arch with terracotta roses and pampas grass" loading="lazy" />
+              <figcaption>Golden Hour Ceremony Arch</figcaption>
+            </figure>
+            <figure class="bento-card">
+              <img src="assets/tablescape.png" alt="Terracotta plateware, gold flatware, and cream floral centerpiece" loading="lazy" />
+              <figcaption>Reception Tablescape</figcaption>
+            </figure>
+            <figure class="bento-card">
+              <img src="assets/bouquet-bride.png" alt="Bride holding cappuccino and terracotta rose bouquet with dried palm spears" loading="lazy" />
+              <figcaption>Dried Palm &amp; Vendela Roses</figcaption>
+            </figure>
+            <figure class="bento-card">
+              <img src="assets/wedding-cake.png" alt="Two-tier cream wedding cake adorned with terracotta roses" loading="lazy" />
+              <figcaption>Artisanal Floral Cake</figcaption>
+            </figure>
+            <figure class="bento-card">
+              <img src="assets/stationery-suite.png" alt="Terracotta envelope with wax seal, silk ribbon, and handmade calligraphy suite" loading="lazy" />
+              <figcaption>Handmade Wax-Seal Suite</figcaption>
+            </figure>
+          </div>
+        </section>
+
+        <!-- 5. ORDER OF EVENTS TIMELINE -->
+        <section class="timeline-section scroll-reveal" aria-labelledby="timelineHeading">
+          <p class="eyebrow-tracked">THE CELEBRATION</p>
+          <h3 id="timelineHeading" class="section-script-title">Order of Events</h3>
+
+          <div class="timeline-list">
+            <div class="timeline-item scroll-reveal">
+              <span class="timeline-time">3:30 PM</span>
+              <span class="timeline-marker" aria-hidden="true"></span>
+              <div class="timeline-content">
+                <h4>Garden Ceremony</h4>
+                <p>Exchange of vows beneath the terracotta &amp; pampas floral arch at the Sunlit Lawn.</p>
+              </div>
+            </div>
+
+            <div class="timeline-item scroll-reveal">
+              <span class="timeline-time">4:30 PM</span>
+              <span class="timeline-marker" aria-hidden="true"></span>
+              <div class="timeline-content">
+                <h4>Golden Hour Aperitivo &amp; Photo Booth</h4>
+                <p>Acoustic vinyl lounge, signature spiced citrus cocktails &amp; instant photo booth prints.</p>
+              </div>
+            </div>
+
+            <div class="timeline-item scroll-reveal">
+              <span class="timeline-time">6:00 PM</span>
+              <span class="timeline-marker" aria-hidden="true"></span>
+              <div class="timeline-content">
+                <h4>Candlelit Conservatory Dinner</h4>
+                <p>A multi-course harvest feast, champagne toasts &amp; cake cutting.</p>
+              </div>
+            </div>
+
+            <div class="timeline-item scroll-reveal">
+              <span class="timeline-time">8:30 PM</span>
+              <span class="timeline-marker" aria-hidden="true"></span>
+              <div class="timeline-content">
+                <h4>First Dance &amp; Afterparty</h4>
+                <p>Dancing under the stars with sparklers and late-night espresso martinis.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 6. WAX SEAL ENVELOPE & RSVP CTA SECTION -->
+        <section class="rsvp-envelope-section scroll-reveal" aria-labelledby="rsvpSectionHeading">
+          <div class="terracotta-envelope-card">
+            <div class="envelope-flap-graphic" aria-hidden="true"></div>
+            <p class="eyebrow-tracked">KINDLY RESPOND BY SEPTEMBER 15, 2027</p>
+            <h3 id="rsvpSectionHeading" class="section-script-title">Reserve Your Seat</h3>
+            <p class="section-body-copy">
+              Tap the terracotta wax seal below to open your personal RSVP card, select your dinner entrée, and request a song for our vinyl turntable.
+            </p>
+
+            <!-- Interactive Terracotta Wax Seal Button -->
+            <button type="button" id="waxSealRsvpBtn" class="wax-seal-btn" aria-label="Press wax seal to open RSVP form">
+              <span class="wax-seal-outer">
+                <span class="wax-seal-inner">
+                  <span class="wax-monogram">C&amp;J</span>
+                  <span class="wax-sub">RSVP</span>
+                </span>
+              </span>
+            </button>
+
+            <div id="rsvpSavedBadge" class="rsvp-saved-badge" hidden>
+              <span>✓ Your RSVP is sealed &amp; confirmed!</span>
+            </div>
+          </div>
+        </section>
+
+        <footer class="invitation-footer">
+          <p class="couple-script-footer">Clifford &amp; Jessa</p>
+          <p class="footer-meta">OCTOBER 24, 2027 • #CliffordAndJessaForever</p>
+          <button type="button" id="replayBoothFooterBtn" class="subtle-text-btn">
+            ↑ Return to Photo Booth Dispenser
+          </button>
+        </footer>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- =====================================================================
+       MODAL 1: FULLSCREEN VINYL RECORD TURNTABLE ("embed your wedding song" 00:15)
+       Uses native <dialog closedby="any"> + JS backdrop fallback
+       ===================================================================== -->
+  <dialog id="vinylModal" class="luxury-dialog vinyl-dialog" closedby="any" aria-labelledby="vinylModalTitle">
+    <div class="dialog-sheet vinyl-sheet">
+      <button type="button" class="dialog-close-btn" data-close-dialog="vinylModal" aria-label="Close turntable view">✕</button>
+      <p class="eyebrow-tracked">EMBED YOUR WEDDING SONG 🕊️</p>
+      <h2 id="vinylModalTitle" class="dialog-script-title">Our Wedding Turntable</h2>
+
+      <div class="turntable-stage">
+        <div class="vinyl-disc vinyl-disc-large" id="vinylDiscLarge">
+          <div class="vinyl-grooves"></div>
+          <div class="vinyl-sheen"></div>
+          <div class="vinyl-center-label">
+            <svg viewBox="0 0 200 200" class="vinyl-label-svg" aria-hidden="true">
+              <defs>
+                <path id="modalTopArc" d="M 32,100 A 68,68 0 1,1 168,100" />
+                <path id="modalBottomArc" d="M 174,100 A 74,74 0 1,1 26,100" />
+              </defs>
+              <circle cx="100" cy="100" r="94" fill="none" stroke="#B05334" stroke-width="1.2" stroke-opacity="0.45" />
+              <text class="vinyl-arc-subtext">
+                <textPath href="#modalTopArc" startOffset="50%" text-anchor="middle">
+                  CLIFFORD &amp; JESSA • FIRST DANCE
+                </textPath>
+              </text>
+              <path
+                d="M 52,108 C 65,68 95,65 88,98 C 82,122 60,118 72,96 C 85,72 122,74 116,105 C 112,126 138,118 148,88"
+                fill="none"
+                stroke="#5A3828"
+                stroke-width="2.2"
+                stroke-linecap="round"
+              />
+              <text x="100" y="108" text-anchor="middle" class="vinyl-monogram-text">C &amp; J</text>
+              <text class="vinyl-arc-tap">
+                <textPath href="#modalBottomArc" startOffset="50%" text-anchor="middle" id="modalVinylArcText">
+                  TAP TO PLAY
+                </textPath>
+              </text>
+            </svg>
+            <span class="vinyl-spindle-hole"></span>
+          </div>
+        </div>
+        <!-- Tonearm -->
+        <div class="tonearm" id="tonearm" aria-hidden="true"></div>
+      </div>
+
+      <p class="song-title-display" id="currentSongTitle">“In Love in the Silence (Acoustic Piano &amp; Strings Serenade)”</p>
+
+      <div class="turntable-actions">
+        <button type="button" id="modalPlayToggleBtn" class="primary-terracotta-btn">
+          Play / Pause Vinyl
+        </button>
+        <label class="secondary-outline-btn" for="customAudioInput">
+          ♪ Load Custom MP3 Song
+          <input type="file" id="customAudioInput" accept="audio/*" hidden />
+        </label>
+      </div>
+      <audio id="customAudioElement" loop hidden></audio>
+    </div>
+  </dialog>
+
+  <!-- =====================================================================
+       MODAL 2: WAX-SEAL INTERACTIVE RSVP DIALOG
+       Uses native <dialog closedby="any"> + JS backdrop fallback
+       ===================================================================== -->
+  <dialog id="rsvpModal" class="luxury-dialog rsvp-dialog" closedby="any" aria-labelledby="rsvpModalTitle">
+    <div class="dialog-sheet">
+      <button type="button" class="dialog-close-btn" data-close-dialog="rsvpModal" aria-label="Close RSVP dialog">✕</button>
+      <p class="eyebrow-tracked">THE CELEBRATION OF CLIFFORD &amp; JESSA</p>
+      <h2 id="rsvpModalTitle" class="dialog-script-title">Répondez S'il Vous Plaît</h2>
+
+      <form id="rsvpForm" class="rsvp-form">
+        <div class="form-field">
+          <label for="guestName">Full Name(s)</label>
+          <input type="text" id="guestName" name="guestName" required placeholder="e.g., Sophia &amp; Alexander Laurent" autocomplete="name" />
+        </div>
+
+        <div class="form-row-2">
+          <div class="form-field">
+            <label for="attendanceSelect">Will You Attend?</label>
+            <select id="attendanceSelect" name="attendance" required>
+              <option value="joyfully_accepts">Joyfully Accepts</option>
+              <option value="regretfully_declines">Regretfully Declines</option>
+            </select>
+          </div>
+
+          <div class="form-field">
+            <label for="guestCount">Number of Seats</label>
+            <select id="guestCount" name="guests">
+              <option value="1">1 Guest</option>
+              <option value="2" selected>2 Guests</option>
+              <option value="3">3 Guests</option>
+              <option value="4">4 Guests</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label for="mealPreference">Harvest Dinner Entrée</label>
+          <select id="mealPreference" name="meal">
+            <option value="herb_crusted_tenderloin">Herb-Crusted Beef Tenderloin &amp; Truffle Jus</option>
+            <option value="miso_sea_bass">Pan-Seared Chilean Sea Bass &amp; Saffron Cream</option>
+            <option value="roasted_butternut_risotto">Wild Mushroom &amp; Roasted Butternut Risotto (Vegetarian)</option>
+          </select>
+        </div>
+
+        <div class="form-field">
+          <label for="songRequest">Song Request for Our Vinyl Turntable</label>
+          <input type="text" id="songRequest" name="songRequest" placeholder="What song will get you on the dance floor?" />
+        </div>
+
+        <div class="form-field">
+          <label for="guestMessage">Note for the Couple</label>
+          <textarea id="guestMessage" name="message" rows="2" placeholder="Share your wishes for Clifford &amp; Jessa..."></textarea>
+        </div>
+
+        <button type="submit" class="primary-terracotta-btn full-width-btn">
+          Seal &amp; Send RSVP
+        </button>
+      </form>
+    </div>
+  </dialog>
+
+  <!-- Hidden File Input for Custom Couple Photo Strip Upload -->
+  <input type="file" id="customStripInput" accept="image/*" multiple hidden />
+
+  <script src="script.js"></script>
+</body>
+</html>
+

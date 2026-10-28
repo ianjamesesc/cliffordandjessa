@@ -1,0 +1,2022 @@
+/* ==========================================================================
+   CLIFFORD & JESSA — INTERACTIVE WEDDING INVITATION
+   Palette inspired by the attached Floral & Terracotta Moodboard Photos:
+   - Cream Daffodils (#F2E4CE)
+   - Amber Banyan Leaves (#C98C50)
+   - Cream Blooming Peony (#F7F1E8)
+   - Sunset Yellow Vendela Rose (#D88046)
+   - Terracotta Anthuriums (#B05334)
+   ========================================================================== */
+
+:root {
+  /* Botanical Color Palette from Attached Photos */
+  --bg-oatmeal: #EAE0D3;
+  --bg-cream-peony: #F5EFE7;
+  --bg-parchment: #FCF9F4;
+  --cream-daffodil: #F2E4CE;
+  --amber-banyan: #C98C50;
+  --sunset-vendela: #D88046;
+  --terracotta: #B05334;
+  --terracotta-deep: #8C3B20;
+  --cappuccino-taupe: #B69682;
+  --champagne-brass: #C8A982;
+  --ink-espresso: #36231B;
+  --ink-umber: #684939;
+  --ink-muted: #8C6D5B;
+
+  /* Typography */
+  --font-serif: 'Cormorant Garamond', Georgia, serif;
+  --font-script: 'Great Vibes', 'Pinyon Script', cursive;
+  --font-calligraphy: 'Alex Brush', 'Great Vibes', cursive;
+  --font-sans: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* Shadows & Depth */
+  --shadow-soft: 0 18px 42px rgba(54, 35, 27, 0.12);
+  --shadow-card: 0 12px 30px rgba(72, 42, 28, 0.16);
+  --shadow-strip: 0 14px 28px rgba(45, 26, 18, 0.25);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: var(--bg-oatmeal);
+  color: var(--ink-espresso);
+  font-family: var(--font-serif);
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  min-height: 100dvh;
+  background:
+    radial-gradient(circle at 18% 12%, rgba(242, 228, 206, 0.85) 0%, transparent 52%),
+    radial-gradient(circle at 85% 78%, rgba(216, 128, 70, 0.16) 0%, transparent 55%),
+    linear-gradient(165deg, #EFE7DC 0%, #E5D9C8 50%, #DFD0BE 100%);
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Ambient Floating Petals & Paper Texture */
+.ambient-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.paper-grain-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0.28;
+  background-image: radial-gradient(rgba(104, 73, 57, 0.12) 1px, transparent 0);
+  background-size: 18px 18px;
+}
+
+/* Camera Shutter Flash Effect */
+.camera-flash {
+  position: fixed;
+  inset: 0;
+  background: #FFFDF9;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 999;
+  transition: opacity 0.45s ease-out;
+}
+
+.camera-flash.flash-active {
+  opacity: 0.85;
+  transition: none;
+}
+
+/* ==========================================================================
+   FLOATING TOP UTILITY BAR
+   ========================================================================== */
+.floating-toolbar {
+  position: fixed;
+  top: 14px;
+  left: 50%;
+  translate: -50% 0;
+  z-index: 90;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(252, 249, 244, 0.84);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(176, 83, 52, 0.22);
+  box-shadow: 0 8px 24px rgba(54, 35, 27, 0.1);
+}
+
+.toolbar-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 13px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--ink-espresso);
+  font-family: var(--font-sans);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.25s ease, transform 0.2s ease, border-color 0.25s ease;
+  white-space: nowrap;
+}
+
+.toolbar-pill:hover {
+  background: rgba(201, 140, 80, 0.15);
+  border-color: rgba(201, 140, 80, 0.35);
+}
+
+.toolbar-pill:active {
+  scale: 0.96;
+}
+
+.toolbar-pill-accent {
+  background: var(--terracotta);
+  color: var(--bg-parchment);
+}
+
+.toolbar-pill-accent:hover {
+  background: var(--terracotta-deep);
+  color: #fff;
+}
+
+.toolbar-pill.hidden {
+  display: none;
+}
+
+.vinyl-mini-icon {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--cream-daffodil) 26%, #241914 28%, #3B2820 55%, #1D1410 100%);
+  border: 1px solid var(--amber-banyan);
+  display: inline-block;
+}
+
+.vinyl-mini-icon.spinning {
+  animation: spinVinyl 2.8s linear infinite;
+  @media (prefers-reduced-motion: reduce) {
+    animation-duration: 18s;
+  }
+}
+
+/* ==========================================================================
+   MAIN INVITATION STAGE & VIEW TRANSITIONS
+   ========================================================================== */
+.invitation-stage {
+  position: relative;
+  z-index: 10;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 68px 16px 40px;
+}
+
+.view-screen {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.view-screen[hidden] {
+  display: none !important;
+}
+
+/* View Transition API Rules (Following same-document-transitions guide) */
+.couple-script-title,
+.venue-script-heading {
+  width: fit-content;
+  margin-inline: auto;
+}
+
+::view-transition-old(shared-photo-strip),
+::view-transition-new(shared-photo-strip) {
+  height: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
+
+/* ==========================================================================
+   VIEW 1: PHOTO BOOTH DISPENSER SCREEN (00:00 - 00:06 in Video)
+   ========================================================================== */
+.phone-card-shell {
+  position: relative;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(255, 252, 247, 0.92), rgba(238, 228, 214, 0.96)),
+    var(--bg-cream-peony);
+  border-radius: 36px;
+  padding: 30px 24px 28px;
+  box-shadow:
+    0 24px 60px rgba(54, 35, 27, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.85),
+    0 0 0 1px rgba(176, 83, 52, 0.16);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* Soft Botanical Palm Shadow Across Top-Right */
+.botanical-shadow-top {
+  position: absolute;
+  top: -30px;
+  right: -30px;
+  width: 240px;
+  height: 220px;
+  background: radial-gradient(ellipse at center, rgba(182, 150, 130, 0.18) 0%, transparent 70%);
+  transform: rotate(-22deg);
+  pointer-events: none;
+}
+
+/* Top Slot Container: Holds either the Metallic Button Plaque OR the Married Title */
+.booth-header-slot {
+  position: relative;
+  width: 100%;
+  min-height: 122px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 14px;
+}
+
+/* STATE A: Metallic "PRESS THE BUTTON TO PRINT!" Plaque (00:00 - 00:01) */
+.metallic-plaque-btn {
+  position: relative;
+  width: 176px;
+  height: 112px;
+  border-radius: 6px;
+  border: 1px solid #9E7F5E;
+  background:
+    linear-gradient(135deg,
+      #DFCDBA 0%,
+      #F5ECE0 22%,
+      #CBB396 46%,
+      #EEDFCE 68%,
+      #B59574 88%,
+      #D8C2A8 100%);
+  box-shadow:
+    0 10px 22px rgba(58, 36, 22, 0.22),
+    inset 0 2px 3px rgba(255, 255, 255, 0.85),
+    inset 0 -3px 6px rgba(92, 62, 38, 0.35);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px;
+  overflow: hidden;
+  transition:
+    transform 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.28s ease,
+    opacity 0.45s ease;
+}
+
+.metallic-plaque-btn:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow:
+    0 14px 28px rgba(58, 36, 22, 0.28),
+    inset 0 2px 4px rgba(255, 255, 255, 0.9);
+}
+
+.metallic-plaque-btn:active,
+.metallic-plaque-btn.pressed {
+  transform: translateY(3px) scale(0.96);
+  box-shadow:
+    0 3px 8px rgba(58, 36, 22, 0.25),
+    inset 0 3px 8px rgba(62, 40, 24, 0.45);
+}
+
+.metallic-plaque-btn.plaque-hidden {
+  opacity: 0;
+  transform: translateY(-12px) scale(0.9);
+  pointer-events: none;
+  position: absolute;
+}
+
+/* 4 Corner Rivets on the Plaque */
+.rivet {
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #FFF8EE, #8C6C4E 65%, #4F3926 100%);
+  box-shadow: 0 1px 1px rgba(255, 255, 255, 0.7), inset 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+.rivet-tl { top: 8px; left: 8px; }
+.rivet-tr { top: 8px; right: 8px; }
+.rivet-bl { bottom: 8px; left: 8px; }
+.rivet-br { bottom: 8px; right: 8px; }
+
+.plaque-text {
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  line-height: 1.48;
+  color: #3E2A1E;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.75);
+  text-align: center;
+  z-index: 2;
+}
+
+.plaque-shimmer {
+  position: absolute;
+  inset: -40%;
+  background: linear-gradient(
+    115deg,
+    transparent 35%,
+    rgba(255, 251, 244, 0.65) 50%,
+    transparent 65%
+  );
+  translate: -120% 0;
+  animation: plaqueSweep 3.8s ease-in-out infinite;
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+.plaque-tap-ring {
+  position: absolute;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(176, 83, 52, 0.45);
+  bottom: 10px;
+  right: 14px;
+  animation: pulseTap 2s ease-out infinite;
+  pointer-events: none;
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+    opacity: 0.3;
+  }
+}
+
+/* STATE B: "WE ARE GETTING MARRIED! Clifford & Jessa" (00:02 - 00:06) */
+.married-header {
+  text-align: center;
+  opacity: 0;
+  transform: translateY(14px);
+  pointer-events: none;
+  position: absolute;
+  transition: opacity 0.65s ease, transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.married-header.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+  position: relative;
+}
+
+.eyebrow-tracked {
+  font-family: var(--font-serif);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-umber);
+  margin-bottom: 6px;
+}
+
+.couple-script-title {
+  font-family: var(--font-script);
+  font-size: clamp(2.55rem, 8vw, 3.35rem);
+  font-weight: 400;
+  color: var(--terracotta-deep);
+  line-height: 1.08;
+  text-shadow: 0 2px 10px rgba(176, 83, 52, 0.12);
+  outline: none;
+}
+
+.couple-script-title .amp {
+  color: var(--amber-banyan);
+  font-size: 0.88em;
+  padding-inline: 2px;
+}
+
+/* ==========================================================================
+   METALLIC PHOTO BOOTH DISPENSER CHUTE (Centerpiece of Screen 1)
+   Warm Brushed Champagne-Bronze & Pewter Bezel with Recessed Slot
+   ========================================================================== */
+.dispenser-outer-frame {
+  width: 248px;
+  height: 416px;
+  padding: 10px;
+  border-radius: 6px;
+  background: linear-gradient(
+    135deg,
+    #5E4534 0%,
+    #DFCBB5 18%,
+    #8C6F56 42%,
+    #F3E8DA 65%,
+    #6B503B 88%,
+    #C9B093 100%
+  );
+  box-shadow:
+    0 22px 44px rgba(48, 28, 18, 0.28),
+    0 4px 10px rgba(48, 28, 18, 0.18),
+    inset 0 1px 2px rgba(255, 255, 255, 0.8);
+  position: relative;
+}
+
+.dispenser-bezel-step-1 {
+  width: 100%;
+  height: 100%;
+  padding: 9px;
+  background: linear-gradient(
+    160deg,
+    #B89F84 0%,
+    #EADFCE 35%,
+    #8D7158 70%,
+    #D4C0A9 100%
+  );
+  box-shadow:
+    inset 0 3px 6px rgba(38, 24, 15, 0.45),
+    0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+.dispenser-bezel-step-2 {
+  width: 100%;
+  height: 100%;
+  padding: 8px;
+  background: linear-gradient(
+    90deg,
+    #69503D 0%,
+    #C7AF95 20%,
+    #EFE5D8 50%,
+    #B69B7E 80%,
+    #5C4433 100%
+  );
+  box-shadow: inset 0 4px 9px rgba(28, 16, 10, 0.55);
+}
+
+.dispenser-recessed-chute {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background:
+    radial-gradient(ellipse at 50% 42%, rgba(248, 239, 226, 0.92) 0%, rgba(202, 180, 156, 0.95) 58%, rgba(128, 103, 82, 0.98) 100%);
+  box-shadow:
+    inset 0 18px 28px rgba(26, 15, 9, 0.62),
+    inset 0 -12px 22px rgba(46, 28, 18, 0.42),
+    inset 8px 0 16px rgba(38, 22, 14, 0.38),
+    inset -8px 0 16px rgba(38, 22, 14, 0.38);
+  overflow: hidden;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+/* Dark Horizontal Printer Slot Opening at Top of Chute */
+.printer-slot-opening {
+  position: absolute;
+  top: 0;
+  left: 6%;
+  right: 6%;
+  height: 12px;
+  background: linear-gradient(180deg, #160D08 0%, #2E1C12 65%, transparent 100%);
+  border-radius: 0 0 6px 6px;
+  z-index: 15;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 10px;
+}
+
+.printer-status-led {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--amber-banyan);
+  box-shadow: 0 0 6px var(--amber-banyan);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.printer-status-led.printing {
+  background: #E56B38;
+  box-shadow: 0 0 10px #E56B38;
+  animation: blinkLed 0.35s ease-in-out infinite alternate;
+}
+
+/* Engraved "Save the Date" Script on Back Wall of Chute (Visible at 00:00 - 00:02) */
+.chute-engraving {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  pointer-events: none;
+  z-index: 2;
+  transition: opacity 0.6s ease;
+}
+
+.engraved-script {
+  font-family: var(--font-script);
+  font-size: 3.1rem;
+  line-height: 0.92;
+  color: rgba(255, 250, 244, 0.78);
+  text-shadow:
+    0 2px 4px rgba(74, 48, 32, 0.45),
+    0 -1px 1px rgba(255, 255, 255, 0.85);
+  transform: rotate(-4deg);
+}
+
+/* Viewport inside the chute that clips the photo strip as it feeds from the top */
+.printed-strip-viewport {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 10px;
+  overflow: hidden;
+}
+
+/* ==========================================================================
+   THE 4-FRAME PHOTO BOOTH STRIP (Shared across Screen 1 & Screen 2)
+   ========================================================================== */
+.photo-strip {
+  width: 122px;
+  background: var(--bg-parchment);
+  padding: 7px 7px 11px;
+  border-radius: 2px;
+  box-shadow: var(--shadow-strip);
+  border: 1px solid rgba(182, 150, 130, 0.35);
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  user-select: none;
+}
+
+/* Initial unprinted position inside Screen 1 chute: tucked completely above the slot */
+#boothPhotoStrip {
+  translate: 0 -112%;
+  opacity: 0;
+}
+
+/* Realistic Photo Booth Step-Feed Printing Animation (00:02 - 00:05 in Video) */
+#boothPhotoStrip.printing-active {
+  opacity: 1;
+  animation: printPhotoStrip 2.75s cubic-bezier(0.22, 0.8, 0.32, 1) forwards;
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+    translate: 0 2px;
+  }
+}
+
+#boothPhotoStrip.printed-done {
+  opacity: 1;
+  translate: 0 2px;
+  view-transition-name: shared-photo-strip;
+}
+
+@keyframes printPhotoStrip {
+  0% {
+    translate: 0 -108%;
+  }
+  24% {
+    translate: 0 -76%;
+  }
+  30% {
+    translate: 0 -74%;
+  }
+  52% {
+    translate: 0 -46%;
+  }
+  58% {
+    translate: 0 -44%;
+  }
+  82% {
+    translate: 0 -14%;
+  }
+  100% {
+    translate: 0 2px;
+  }
+}
+
+.strip-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  background: #2C1D16;
+  overflow: hidden;
+  border: 1px solid rgba(90, 56, 40, 0.2);
+}
+
+.couple-frame-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.frame-vintage-gloss {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(125deg, rgba(255, 248, 236, 0.18) 0%, transparent 45%, rgba(44, 24, 14, 0.2) 100%);
+  pointer-events: none;
+}
+
+.strip-caption {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 3px;
+  line-height: 1.1;
+}
+
+.strip-couple-sig {
+  font-family: var(--font-script);
+  font-size: 0.92rem;
+  color: var(--terracotta-deep);
+}
+
+.strip-date-mini {
+  font-family: var(--font-sans);
+  font-size: 0.44rem;
+  letter-spacing: 0.18em;
+  color: var(--ink-muted);
+  margin-top: 1px;
+}
+
+/* ==========================================================================
+   SCREEN 1 FOOTER: DATE & "OPEN INVITATION" CTA
+   ========================================================================== */
+.booth-footer-area {
+  width: 100%;
+  text-align: center;
+  margin-top: 18px;
+  min-height: 102px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.editorial-date-large {
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 6.5vw, 2.55rem);
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  color: var(--ink-umber);
+  opacity: 0.35;
+  transform: translateY(6px);
+  transition: opacity 0.6s ease, transform 0.6s ease, color 0.6s ease;
+}
+
+.editorial-date-large.date-active {
+  opacity: 1;
+  transform: translateY(0);
+  color: var(--ink-espresso);
+}
+
+.booth-actions-row {
+  margin-top: 12px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.open-invitation-btn {
+  padding: 11px 32px;
+  border-radius: 3px;
+  border: 1px solid var(--terracotta);
+  background: linear-gradient(180deg, rgba(252, 249, 244, 0.95) 0%, rgba(242, 228, 206, 0.92) 100%);
+  color: var(--terracotta-deep);
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(176, 83, 52, 0.16);
+  opacity: 0;
+  translate: 0 12px;
+  pointer-events: none;
+  transition:
+    opacity 0.55s ease,
+    translate 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 0.25s ease,
+    color 0.25s ease,
+    transform 0.2s ease;
+}
+
+.open-invitation-btn.btn-visible {
+  opacity: 1;
+  translate: 0 0;
+  pointer-events: auto;
+  animation: gentlePulseBorder 2.4s ease-in-out infinite;
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+.open-invitation-btn:hover {
+  background: var(--terracotta);
+  color: var(--bg-parchment);
+  transform: translateY(-2px);
+}
+
+.booth-sub-controls {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.booth-sub-controls.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.subtle-text-btn {
+  background: none;
+  border: none;
+  font-family: var(--font-sans);
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  color: var(--ink-umber);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.subtle-text-btn:hover {
+  color: var(--terracotta-deep);
+}
+
+.dot-sep {
+  color: var(--amber-banyan);
+  font-size: 0.7rem;
+}
+
+/* ==========================================================================
+   VIEW 2: FULL EDITORIAL INVITATION & INTERACTIVE COLLAGE (00:07 - 00:22)
+   ========================================================================== */
+.invitation-screen {
+  max-width: 560px;
+}
+
+.invitation-scroll-container {
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(252, 249, 244, 0.96), rgba(242, 232, 218, 0.96)),
+    var(--bg-cream-peony);
+  border-radius: 36px;
+  padding: 40px 22px 44px;
+  box-shadow:
+    0 26px 68px rgba(54, 35, 27, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    0 0 0 1px rgba(176, 83, 52, 0.16);
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  overflow: hidden;
+}
+
+/* 1. HERO VENUE HEADER ("MEET US AT The Conservatory Gardens") */
+.invitation-hero-header {
+  text-align: center;
+  padding-inline: 10px;
+}
+
+.venue-script-heading {
+  font-family: var(--font-script);
+  font-size: clamp(2.5rem, 8.2vw, 3.45rem);
+  font-weight: 400;
+  line-height: 1.04;
+  color: var(--terracotta-deep);
+  margin: 6px auto 12px;
+  outline: none;
+}
+
+.venue-city-script {
+  color: var(--ink-umber);
+  font-size: 0.6em;
+}
+
+.hero-full-date {
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  color: var(--ink-espresso);
+}
+
+.ornamental-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 16px;
+  color: var(--amber-banyan);
+}
+
+.divider-line {
+  width: 56px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--amber-banyan), transparent);
+}
+
+.divider-diamond {
+  font-size: 0.75rem;
+}
+
+/* ==========================================================================
+   2. SIGNATURE EDITORIAL COLLAGE STAGE (00:07 - 00:22 in Video)
+   Contains:
+   - Tilted Wedding Movie Postcard (Top Center-Left)
+   - Interactive Spinning Vinyl Record (Middle Left)
+   - Overlapping 4-Frame Photo Booth Strip (Right Side)
+   - Formal Handmade Calligraphy Invitation Card (Bottom Center)
+   ========================================================================== */
+.editorial-collage-section {
+  position: relative;
+  width: 100%;
+  padding-block: 6px 12px;
+}
+
+.collage-stage {
+  position: relative;
+  width: 100%;
+  min-height: 610px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* A. WEDDING MOVIE POSTCARD (00:08 - 00:22 in Video) */
+.movie-postcard-wrapper {
+  position: relative;
+  width: 88%;
+  max-width: 400px;
+  aspect-ratio: 16 / 10.6;
+  background: var(--bg-parchment);
+  padding: 8px;
+  border-radius: 4px;
+  box-shadow: 0 20px 42px rgba(45, 25, 15, 0.26);
+  transform: rotate(-3.2deg) translateX(-10px);
+  z-index: 15;
+  cursor: pointer;
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.45s ease;
+}
+
+.movie-postcard-wrapper:hover,
+.movie-postcard-wrapper.cinema-expanded {
+  transform: rotate(0deg) scale(1.04);
+  box-shadow: 0 28px 58px rgba(45, 25, 15, 0.36);
+  z-index: 40;
+}
+
+.postcard-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 2px;
+  background: #2A1912;
+}
+
+.postcard-cinema-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.postcard-warm-vignette {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 60% 45%, transparent 30%, rgba(36, 18, 10, 0.52) 100%),
+    linear-gradient(180deg, rgba(36, 18, 10, 0.3) 0%, transparent 40%, rgba(36, 18, 10, 0.65) 100%);
+  pointer-events: none;
+}
+
+.postcard-top-right-copy {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  text-align: right;
+  font-family: var(--font-sans);
+  font-size: 0.5rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  line-height: 1.45;
+  color: var(--cream-daffodil);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+}
+
+/* Sweeping "Save the Date" Overlay on Movie Postcard (Matches 00:11 & 00:19) */
+.postcard-save-the-date-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 18px;
+  pointer-events: none;
+}
+
+.std-save,
+.std-date {
+  font-family: var(--font-script);
+  font-size: clamp(2.8rem, 9vw, 3.8rem);
+  color: #FFF9F2;
+  line-height: 0.78;
+  text-shadow: 0 4px 18px rgba(28, 14, 8, 0.65);
+}
+
+.std-the {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(1.3rem, 4vw, 1.75rem);
+  color: var(--cream-daffodil);
+  margin-left: 58px;
+  margin-block: 2px;
+  text-shadow: 0 2px 10px rgba(28, 14, 8, 0.65);
+}
+
+.std-date {
+  margin-left: 26px;
+}
+
+.postcard-bottom-bar {
+  position: absolute;
+  bottom: 10px;
+  left: 12px;
+  right: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.film-live-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: rgba(36, 20, 14, 0.62);
+  backdrop-filter: blur(4px);
+  color: var(--cream-daffodil);
+  font-family: var(--font-sans);
+  font-size: 0.46rem;
+  letter-spacing: 0.14em;
+}
+
+.film-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--sunset-vendela);
+  box-shadow: 0 0 6px var(--sunset-vendela);
+  animation: blinkLed 1s ease-in-out infinite alternate;
+}
+
+.postcard-couple-pill {
+  padding: 3px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(242, 228, 206, 0.75);
+  background: rgba(54, 35, 27, 0.48);
+  backdrop-filter: blur(4px);
+  color: #FFFDF9;
+  font-family: var(--font-script);
+  font-size: 0.95rem;
+}
+
+/* B. INTERACTIVE SPINNING VINYL RECORD ("embed your wedding song" - 00:08 & 00:15) */
+.vinyl-player-cluster {
+  position: absolute;
+  top: 192px;
+  left: -6px;
+  z-index: 28;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.vinyl-record-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.vinyl-record-btn:hover {
+  transform: scale(1.07);
+}
+
+.vinyl-record-btn:active {
+  transform: scale(0.96);
+}
+
+.vinyl-disc {
+  position: relative;
+  width: 152px;
+  height: 152px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at center,
+      #19120F 0%,
+      #281C17 28%,
+      #140D0A 45%,
+      #2C1F19 66%,
+      #120C09 86%,
+      #2F211B 100%);
+  box-shadow:
+    0 16px 34px rgba(32, 18, 11, 0.42),
+    0 0 0 2px rgba(201, 140, 80, 0.28);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.vinyl-disc-large {
+  width: 248px;
+  height: 248px;
+}
+
+/* Realistic Concentric Vinyl Micro-Grooves */
+.vinyl-grooves {
+  position: absolute;
+  inset: 6px;
+  border-radius: 50%;
+  background: repeating-radial-gradient(
+    circle at center,
+    rgba(255, 245, 232, 0.055) 0px,
+    rgba(255, 245, 232, 0.055) 1px,
+    transparent 1.5px,
+    transparent 3.5px
+  );
+  pointer-events: none;
+}
+
+/* Anisotropic Conic Light Reflection Sheen on Vinyl */
+.vinyl-sheen {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 35deg,
+    transparent 0deg,
+    rgba(242, 228, 206, 0.22) 28deg,
+    transparent 60deg,
+    transparent 150deg,
+    rgba(216, 128, 70, 0.18) 185deg,
+    transparent 220deg,
+    transparent 360deg
+  );
+  pointer-events: none;
+}
+
+/* Warm Cream Peony & Terracotta Center Label (Matches 00:15 in Video) */
+.vinyl-center-label {
+  position: relative;
+  width: 58%;
+  height: 58%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #FCF8F0 0%, #EFE1CE 70%, #DEC8AE 100%);
+  box-shadow:
+    0 0 0 3px rgba(176, 83, 52, 0.35),
+    inset 0 1px 4px rgba(90, 56, 40, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vinyl-label-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.vinyl-arc-subtext {
+  font-family: var(--font-sans);
+  font-size: 9.5px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  fill: var(--ink-umber);
+}
+
+.vinyl-monogram-text {
+  font-family: var(--font-script);
+  font-size: 26px;
+  fill: var(--terracotta-deep);
+  opacity: 0.25;
+}
+
+.vinyl-arc-tap {
+  font-family: var(--font-serif);
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  fill: var(--ink-espresso);
+}
+
+.vinyl-spindle-hole {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #231610;
+  border: 1.5px solid var(--champagne-brass);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.vinyl-disc.is-spinning {
+  animation: spinVinyl 4.5s linear infinite;
+  @media (prefers-reduced-motion: reduce) {
+    animation-duration: 24s;
+  }
+}
+
+@keyframes spinVinyl {
+  to {
+    rotate: 360deg;
+  }
+}
+
+/* Floating Musical Notes Emitter */
+.vinyl-notes-emitter {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.vinyl-notes-emitter.active {
+  opacity: 1;
+}
+
+.vinyl-notes-emitter .note {
+  position: absolute;
+  color: var(--terracotta);
+  font-size: 1.1rem;
+  animation: floatNote 2.4s ease-out infinite;
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+.vinyl-notes-emitter .n2 {
+  left: 24px;
+  animation-delay: 0.8s;
+  color: var(--amber-banyan);
+}
+
+.vinyl-notes-emitter .n3 {
+  left: -22px;
+  animation-delay: 1.5s;
+  color: var(--sunset-vendela);
+}
+
+@keyframes floatNote {
+  0% {
+    translate: 0 10px;
+    opacity: 0;
+    scale: 0.7;
+  }
+  40% {
+    opacity: 1;
+  }
+  100% {
+    translate: -10px -46px;
+    opacity: 0;
+    scale: 1.15;
+  }
+}
+
+.vinyl-controls-caption {
+  margin-top: 6px;
+}
+
+.vinyl-caption-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(252, 249, 244, 0.92);
+  border: 1px solid rgba(176, 83, 52, 0.3);
+  color: var(--terracotta-deep);
+  font-family: var(--font-sans);
+  font-size: 0.56rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(54, 35, 27, 0.12);
+}
+
+/* C. OVERLAPPING 4-FRAME PHOTO STRIP IN COLLAGE (Right Side, Tilted - 00:08 to 00:14) */
+.collage-strip-holder {
+  position: absolute;
+  top: 74px;
+  right: -4px;
+  z-index: 26;
+  transform: rotate(7.5deg);
+  cursor: pointer;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.collage-strip-holder:hover {
+  transform: rotate(2deg) scale(1.05);
+  z-index: 35;
+}
+
+.collage-photo-strip {
+  width: 118px;
+}
+
+.collage-photo-strip.active-shared-strip {
+  view-transition-name: shared-photo-strip;
+}
+
+/* D. FORMAL HANDMADE CALLIGRAPHY INVITATION CARD (Bottom of Collage - 00:08 to 00:14) */
+.formal-invitation-card {
+  position: relative;
+  z-index: 20;
+  width: 84%;
+  max-width: 370px;
+  margin-top: -18px;
+  margin-left: 16px;
+  background:
+    radial-gradient(circle at 20% 20%, #FFFDF9 0%, #F8F1E7 100%);
+  padding: 12px;
+  border-radius: 3px;
+  box-shadow:
+    0 20px 44px rgba(54, 35, 27, 0.18),
+    0 0 0 1px rgba(201, 140, 80, 0.28);
+  transform: rotate(1.4deg);
+  transition: transform 0.35s ease;
+}
+
+.formal-invitation-card:hover {
+  transform: rotate(0deg) translateY(-3px);
+}
+
+.card-inner-border {
+  border: 1px solid rgba(176, 83, 52, 0.32);
+  padding: 24px 18px;
+  text-align: center;
+}
+
+.card-small-caps {
+  font-family: var(--font-sans);
+  font-size: 0.55rem;
+  letter-spacing: 0.2em;
+  color: var(--ink-muted);
+  margin-bottom: 6px;
+}
+
+.card-serif-emphasis {
+  font-family: var(--font-serif);
+  font-size: 0.92rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  color: var(--ink-espresso);
+}
+
+.card-serif-sub {
+  font-family: var(--font-serif);
+  font-size: 0.78rem;
+  letter-spacing: 0.16em;
+  color: var(--ink-umber);
+  margin-top: 3px;
+}
+
+.card-hairline {
+  border: none;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(176, 83, 52, 0.35), transparent);
+  margin: 16px auto;
+  width: 78%;
+}
+
+.handwritten-note {
+  font-family: var(--font-calligraphy);
+  font-size: clamp(1.65rem, 5.2vw, 2.1rem);
+  line-height: 1.25;
+  color: var(--terracotta-deep);
+  padding-inline: 6px;
+}
+
+.handwritten-signoff {
+  display: block;
+  margin-top: 6px;
+  color: var(--ink-umber);
+}
+
+.card-footer-caps {
+  font-family: var(--font-sans);
+  font-size: 0.52rem;
+  letter-spacing: 0.2em;
+  color: var(--ink-muted);
+}
+
+/* ==========================================================================
+   3. COUNTDOWN TIMER SECTION ("WE HOPE YOU CAN JOIN US IN..." at 00:08 - 00:14)
+   ========================================================================== */
+.countdown-section {
+  text-align: center;
+  padding: 26px 16px;
+  border-radius: 20px;
+  background: rgba(252, 249, 244, 0.72);
+  border: 1px solid rgba(201, 140, 80, 0.26);
+  box-shadow: var(--shadow-soft);
+}
+
+.countdown-grid {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: clamp(8px, 3vw, 18px);
+  margin-top: 12px;
+}
+
+.countdown-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 64px;
+}
+
+.countdown-num {
+  font-family: var(--font-serif);
+  font-size: clamp(2.2rem, 7vw, 3.1rem);
+  font-weight: 400;
+  line-height: 1;
+  color: var(--terracotta-deep);
+  font-variant-numeric: tabular-nums;
+}
+
+.countdown-label {
+  font-family: var(--font-sans);
+  font-size: 0.56rem;
+  letter-spacing: 0.2em;
+  color: var(--ink-muted);
+  margin-top: 6px;
+}
+
+.countdown-colon {
+  font-family: var(--font-serif);
+  font-size: 1.8rem;
+  color: var(--amber-banyan);
+  transform: translateY(-10px);
+}
+
+/* ==========================================================================
+   4. BOTANICAL COLOR PALETTE & MOODBOARD SECTION (From Attached Photos)
+   ========================================================================== */
+.palette-section {
+  text-align: center;
+}
+
+.section-script-title {
+  font-family: var(--font-script);
+  font-size: clamp(2.2rem, 7vw, 2.85rem);
+  font-weight: 400;
+  color: var(--terracotta-deep);
+  margin: 4px 0 10px;
+}
+
+.section-body-copy {
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  line-height: 1.55;
+  color: var(--ink-umber);
+  max-width: 44ch;
+  margin: 0 auto 22px;
+}
+
+.floral-swatch-row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.swatch-item {
+  background: rgba(252, 249, 244, 0.8);
+  border: 1px solid rgba(182, 150, 130, 0.3);
+  border-radius: 14px;
+  padding: 12px 4px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.swatch-item:hover,
+.swatch-item.active {
+  transform: translateY(-4px);
+  border-color: var(--terracotta);
+  box-shadow: 0 10px 22px rgba(176, 83, 52, 0.16);
+  background: #FFFDF9;
+}
+
+.swatch-circle {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--swatch-hex);
+  border: 2px solid #fff;
+  box-shadow: 0 4px 10px rgba(54, 35, 27, 0.18);
+  margin-bottom: 8px;
+}
+
+.swatch-flower-tag {
+  font-family: var(--font-sans);
+  font-size: 0.44rem;
+  letter-spacing: 0.14em;
+  color: var(--ink-muted);
+}
+
+.swatch-flower-name {
+  font-family: var(--font-serif);
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--ink-espresso);
+  line-height: 1.15;
+  margin-top: 2px;
+}
+
+.swatch-inspector-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: 14px;
+  background: rgba(252, 249, 244, 0.9);
+  border: 1px solid rgba(201, 140, 80, 0.32);
+  margin-bottom: 22px;
+  text-align: left;
+}
+
+.inspector-dot {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  border: 2px solid #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.inspector-copy strong {
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  color: var(--ink-espresso);
+}
+
+.inspector-copy p {
+  font-family: var(--font-sans);
+  font-size: 0.68rem;
+  color: var(--ink-umber);
+}
+
+/* Bento Moodboard Grid Featuring Cropped Reference Images */
+.moodboard-bento-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.bento-card {
+  position: relative;
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--bg-parchment);
+  box-shadow: 0 8px 20px rgba(54, 35, 27, 0.12);
+  border: 1px solid rgba(201, 140, 80, 0.25);
+  aspect-ratio: 4 / 4.2;
+}
+
+.bento-card.bento-tall {
+  grid-column: span 2;
+  aspect-ratio: 16 / 11;
+}
+
+.bento-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: scale 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.bento-card:hover img {
+  scale: 1.05;
+}
+
+.bento-card figcaption {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  right: 8px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: rgba(42, 25, 18, 0.68);
+  backdrop-filter: blur(6px);
+  color: var(--cream-daffodil);
+  font-family: var(--font-sans);
+  font-size: 0.56rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* ==========================================================================
+   5. ORDER OF EVENTS TIMELINE
+   ========================================================================== */
+.timeline-section {
+  text-align: center;
+}
+
+.timeline-list {
+  position: relative;
+  margin-top: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  text-align: left;
+}
+
+.timeline-list::before {
+  content: '';
+  position: absolute;
+  top: 8px;
+  bottom: 8px;
+  left: 86px;
+  width: 1px;
+  background: linear-gradient(180deg, transparent, var(--amber-banyan), var(--terracotta), transparent);
+}
+
+.timeline-item {
+  display: grid;
+  grid-template-columns: 74px 24px 1fr;
+  align-items: start;
+  gap: 8px;
+}
+
+.timeline-time {
+  font-family: var(--font-sans);
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--terracotta);
+  text-align: right;
+  padding-top: 3px;
+}
+
+.timeline-marker {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--bg-parchment);
+  border: 2.5px solid var(--terracotta);
+  margin: 4px auto 0;
+  z-index: 2;
+  box-shadow: 0 0 0 3px rgba(176, 83, 52, 0.15);
+}
+
+.timeline-content {
+  background: rgba(252, 249, 244, 0.78);
+  border: 1px solid rgba(201, 140, 80, 0.25);
+  border-radius: 12px;
+  padding: 12px 14px;
+}
+
+.timeline-content h4 {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--ink-espresso);
+  margin-bottom: 3px;
+}
+
+.timeline-content p {
+  font-size: 0.92rem;
+  line-height: 1.45;
+  color: var(--ink-umber);
+}
+
+/* ==========================================================================
+   6. TERRACOTTA ENVELOPE & WAX-SEAL RSVP CTA (Inspired by Photo 2 Bottom-Right)
+   ========================================================================== */
+.rsvp-envelope-section {
+  text-align: center;
+}
+
+.terracotta-envelope-card {
+  position: relative;
+  background:
+    linear-gradient(165deg, #FCF8F2 0%, #F2E5D5 100%);
+  border-radius: 22px;
+  padding: 36px 20px 30px;
+  border: 1px solid rgba(176, 83, 52, 0.32);
+  box-shadow:
+    0 20px 44px rgba(140, 59, 32, 0.16),
+    inset 0 0 0 6px rgba(176, 83, 52, 0.08);
+  overflow: hidden;
+}
+
+.envelope-flap-graphic {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 24px;
+  background: linear-gradient(90deg, var(--terracotta), var(--sunset-vendela), var(--terracotta));
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  opacity: 0.85;
+}
+
+.wax-seal-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-top: 8px;
+  padding: 6px;
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.wax-seal-btn:hover {
+  transform: scale(1.08) rotate(-3deg);
+}
+
+.wax-seal-btn:active {
+  transform: scale(0.95);
+}
+
+.wax-seal-outer {
+  width: 88px;
+  height: 88px;
+  border-radius: 47% 53% 51% 49% / 52% 48% 53% 47%;
+  background: radial-gradient(circle at 32% 28%, #D46C47 0%, #B05334 52%, #7D331B 92%);
+  box-shadow:
+    0 10px 22px rgba(110, 42, 20, 0.38),
+    inset 0 3px 6px rgba(255, 215, 190, 0.45),
+    inset 0 -4px 8px rgba(58, 18, 8, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wax-seal-inner {
+  width: 66px;
+  height: 66px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(242, 210, 188, 0.45);
+  box-shadow:
+    inset 0 2px 5px rgba(58, 18, 8, 0.55),
+    0 1px 2px rgba(255, 220, 200, 0.35);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #FCECE2;
+}
+
+.wax-monogram {
+  font-family: var(--font-script);
+  font-size: 1.45rem;
+  line-height: 1;
+}
+
+.wax-sub {
+  font-family: var(--font-sans);
+  font-size: 0.48rem;
+  letter-spacing: 0.2em;
+  margin-top: 2px;
+}
+
+.rsvp-saved-badge {
+  margin-top: 14px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: rgba(176, 83, 52, 0.12);
+  border: 1px solid var(--terracotta);
+  color: var(--terracotta-deep);
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  font-weight: 500;
+}
+
+.invitation-footer {
+  text-align: center;
+  padding-top: 10px;
+  border-top: 1px solid rgba(201, 140, 80, 0.28);
+}
+
+.couple-script-footer {
+  font-family: var(--font-script);
+  font-size: 2.3rem;
+  color: var(--terracotta-deep);
+}
+
+.footer-meta {
+  font-family: var(--font-sans);
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  color: var(--ink-muted);
+  margin: 4px 0 12px;
+}
+
+/* ==========================================================================
+   SCROLL-DRIVEN ENTRY ANIMATIONS (Following scroll-entry-exit-effects guide)
+   ========================================================================== */
+@media (prefers-reduced-motion: no-preference) {
+  @supports ((animation-timeline: view()) and (animation-range: entry)) {
+    @keyframes scrollRevealEntry {
+      from {
+        opacity: 0;
+        translate: 0 28px;
+        scale: 0.96;
+      }
+      to {
+        opacity: 1;
+        translate: 0 0;
+        scale: 1;
+      }
+    }
+
+    .scroll-reveal {
+      animation: scrollRevealEntry auto linear backwards;
+      animation-timeline: view(block);
+      animation-range: entry 5% cover 24%;
+    }
+  }
+}
+
+/* Fallback class for browsers without CSS view() timeline support */
+.scroll-reveal-fallback {
+  opacity: 0;
+  translate: 0 24px;
+  transition: opacity 0.6s ease-out, translate 0.6s ease-out;
+}
+
+.scroll-reveal-fallback.in-view {
+  opacity: 1;
+  translate: 0 0;
+}
+
+/* ==========================================================================
+   NATIVE <dialog closedby="any"> MODALS (Following light-dismiss-a-dialog & motion)
+   ========================================================================== */
+.luxury-dialog {
+  margin: auto;
+  width: min(92vw, 440px);
+  border: 1px solid rgba(176, 83, 52, 0.35);
+  border-radius: 24px;
+  background: var(--bg-parchment);
+  color: var(--ink-espresso);
+  padding: 0;
+  box-shadow: 0 28px 70px rgba(36, 18, 10, 0.38);
+  opacity: 0;
+  scale: 0.94;
+  transition:
+    opacity 0.26s ease-out,
+    scale 0.26s cubic-bezier(0.22, 1, 0.36, 1),
+    display 0.26s allow-discrete,
+    overlay 0.26s allow-discrete;
+}
+
+.luxury-dialog[open] {
+  opacity: 1;
+  scale: 1;
+}
+
+@starting-style {
+  .luxury-dialog[open] {
+    opacity: 0;
+    scale: 0.94;
+  }
+}
+
+.luxury-dialog::backdrop {
+  background-color: rgba(38, 22, 14, 0.58);
+  backdrop-filter: blur(4px);
+}
+
+.dialog-sheet {
+  position: relative;
+  padding: 32px 24px 26px;
+  text-align: center;
+}
+
+.dialog-close-btn {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid rgba(176, 83, 52, 0.25);
+  background: rgba(242, 228, 206, 0.5);
+  color: var(--ink-espresso);
+  cursor: pointer;
+}
+
+.dialog-script-title {
+  font-family: var(--font-script);
+  font-size: 2.35rem;
+  font-weight: 400;
+  color: var(--terracotta-deep);
+  margin: 4px 0 14px;
+}
+
+/* Turntable Modal Stage */
+.turntable-stage {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 16px 0;
+}
+
+.tonearm {
+  position: absolute;
+  top: 14px;
+  right: 34px;
+  width: 14px;
+  height: 128px;
+  border-right: 4px solid var(--champagne-brass);
+  border-top: 8px solid var(--terracotta);
+  border-radius: 4px;
+  transform-origin: top right;
+  rotate: -24deg;
+  transition: rotate 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+
+.tonearm.playing {
+  rotate: 12deg;
+}
+
+.song-title-display {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--ink-umber);
+  margin: 8px 0 18px;
+}
+
+.turntable-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.primary-terracotta-btn {
+  padding: 12px 22px;
+  border-radius: 999px;
+  border: none;
+  background: linear-gradient(135deg, var(--terracotta) 0%, var(--terracotta-deep) 100%);
+  color: #FFFDF9;
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(176, 83, 52, 0.28);
+}
+
+.secondary-outline-btn {
+  display: inline-block;
+  padding: 10px 18px;
+  border-radius: 999px;
+  border: 1px solid var(--amber-banyan);
+  color: var(--ink-espresso);
+  font-family: var(--font-sans);
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+/* RSVP Form Styling */
+.rsvp-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  text-align: left;
+}
+
+.form-row-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.form-field label {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-umber);
+  margin-bottom: 5px;
+}
+
+.form-field input,
+.form-field select,
+.form-field textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(176, 83, 52, 0.3);
+  background: #FFFDF9;
+  color: var(--ink-espresso);
+  font-family: var(--font-serif);
+  font-size: 1rem;
+}
+
+.form-field input:focus,
+.form-field select:focus,
+.form-field textarea:focus {
+  outline: 2px solid var(--sunset-vendela);
+  border-color: transparent;
+}
+
+.full-width-btn {
+  width: 100%;
+  margin-top: 6px;
+}
+
+/* Keyframes */
+@keyframes plaqueSweep {
+  0%, 60% { translate: -120% 0; }
+  100% { translate: 120% 0; }
+}
+
+@keyframes pulseTap {
+  0% { scale: 0.7; opacity: 0.85; }
+  100% { scale: 1.5; opacity: 0; }
+}
+
+@keyframes blinkLed {
+  from { opacity: 0.45; }
+  to { opacity: 1; }
+}
+
+@keyframes gentlePulseBorder {
+  0%, 100% { box-shadow: 0 8px 20px rgba(176, 83, 52, 0.16); }
+  50% { box-shadow: 0 10px 26px rgba(216, 128, 70, 0.34); }
+}
+
+/* Mobile Responsive Adjustments */
+@media (max-width: 480px) {
+  .floral-swatch-row {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .collage-stage {
+    min-height: 580px;
+  }
+  .vinyl-disc {
+    width: 136px;
+    height: 136px;
+  }
+  .collage-photo-strip {
+    width: 106px;
+  }
+}
+
