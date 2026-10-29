@@ -295,17 +295,95 @@
     });
   }
 
-  // Romantic Acoustic Piano & Warm Pad Serenade for the Vinyl Player
-  const romanticProgression = [
-    // Warm romantic arpeggiated chords (Fmaj7 -> G6 -> Em7 -> Am7 -> Dm7 -> G7 -> Cmaj9)
-    { bass: 174.61, notes: [349.23, 440.0, 523.25, 659.25] },
-    { bass: 196.0, notes: [392.0, 493.88, 587.33, 659.25] },
-    { bass: 164.81, notes: [329.63, 392.0, 493.88, 587.33] },
-    { bass: 220.0, notes: [329.63, 440.0, 523.25, 659.25] },
-    { bass: 146.83, notes: [293.66, 440.0, 523.25, 698.46] },
-    { bass: 196.0, notes: [293.66, 392.0, 493.88, 659.25] },
-    { bass: 130.81, notes: [261.63, 329.63, 392.0, 587.33] },
-    { bass: 130.81, notes: [329.63, 392.0, 493.88, 523.25] },
+  // "With you - Jimin, Ha Sung Woon" (E♭ Major 6/8 Acoustic Piano & Strings Arrangement)
+  // Chord progression: E♭ -> B♭/D -> Cm7 -> E♭/B♭ -> A♭maj7 -> E♭/G -> Fm7 -> B♭7sus4/B♭7
+  // With lead vocal melody ("I wanna be with you... And I wanna stay with you...")
+  const withYouProgression = [
+    // Bar 1: E♭ major ("I wan-na be with you...")
+    {
+      bass: 155.56, // Eb3
+      arpeggio: [233.08, 311.13, 392.0, 466.16, 392.0, 311.13], // Bb3, Eb4, G4, Bb4
+      melody: [
+        { freq: 392.0, delay: 0.0, dur: 0.55 },   // G4 ("I")
+        { freq: 415.3, delay: 0.42, dur: 0.45 },  // Ab4 ("wan-")
+        { freq: 466.16, delay: 0.84, dur: 0.55 }, // Bb4 ("na")
+        { freq: 622.25, delay: 1.26, dur: 1.2 },  // Eb5 ("be...")
+      ],
+    },
+    // Bar 2: B♭/D ("...with you")
+    {
+      bass: 146.83, // D3
+      arpeggio: [233.08, 293.66, 392.0, 466.16, 392.0, 293.66], // Bb3, D4, G4, Bb4
+      melody: [
+        { freq: 587.33, delay: 0.0, dur: 0.85 },  // D5 ("with")
+        { freq: 466.16, delay: 0.84, dur: 1.5 },  // Bb4 ("you")
+      ],
+    },
+    // Bar 3: Cm7 ("And I wan-na stay...")
+    {
+      bass: 130.81, // C3
+      arpeggio: [196.0, 261.63, 311.13, 392.0, 311.13, 261.63], // G3, C4, Eb4, G4
+      melody: [
+        { freq: 392.0, delay: 0.0, dur: 0.45 },   // G4 ("And")
+        { freq: 415.3, delay: 0.42, dur: 0.45 },  // Ab4 ("I")
+        { freq: 466.16, delay: 0.84, dur: 0.55 }, // Bb4 ("wan-na")
+        { freq: 523.25, delay: 1.26, dur: 1.2 },  // C5 ("stay...")
+      ],
+    },
+    // Bar 4: E♭/B♭ ("...with you")
+    {
+      bass: 116.54, // Bb2
+      arpeggio: [233.08, 311.13, 392.0, 466.16, 392.0, 311.13], // Bb3, Eb4, G4, Bb4
+      melody: [
+        { freq: 466.16, delay: 0.0, dur: 0.85 },  // Bb4 ("with")
+        { freq: 392.0, delay: 0.84, dur: 1.5 },   // G4 ("you")
+      ],
+    },
+    // Bar 5: A♭maj7 ("Just like the stars shin-ing bright...")
+    {
+      bass: 103.83, // Ab2
+      arpeggio: [207.65, 261.63, 311.13, 392.0, 311.13, 261.63], // Ab3, C4, Eb4, G4
+      melody: [
+        { freq: 523.25, delay: 0.0, dur: 0.5 },   // C5 ("Just")
+        { freq: 466.16, delay: 0.42, dur: 0.5 },  // Bb4 ("like")
+        { freq: 415.3, delay: 0.84, dur: 0.5 },   // Ab4 ("the")
+        { freq: 392.0, delay: 1.26, dur: 0.55 },  // G4 ("stars")
+        { freq: 415.3, delay: 1.68, dur: 0.5 },   // Ab4 ("shin-")
+        { freq: 466.16, delay: 2.1, dur: 0.55 },  // Bb4 ("ing")
+      ],
+    },
+    // Bar 6: E♭/G ("...bright, you're glow-ing once")
+    {
+      bass: 98.0, // G2
+      arpeggio: [196.0, 233.08, 311.13, 392.0, 311.13, 233.08], // G3, Bb3, Eb4, G4
+      melody: [
+        { freq: 392.0, delay: 0.0, dur: 1.15 },   // G4 ("bright")
+        { freq: 349.23, delay: 1.26, dur: 0.5 },  // F4 ("you're")
+        { freq: 392.0, delay: 1.68, dur: 0.5 },   // G4 ("glow-")
+        { freq: 466.16, delay: 2.1, dur: 0.55 },  // Bb4 ("ing")
+      ],
+    },
+    // Bar 7: Fm7 ("...more, right here be-side you...")
+    {
+      bass: 87.31, // F2
+      arpeggio: [174.61, 261.63, 311.13, 415.3, 311.13, 261.63], // F3, C4, Eb4, Ab4
+      melody: [
+        { freq: 415.3, delay: 0.0, dur: 0.9 },    // Ab4 ("once")
+        { freq: 349.23, delay: 0.84, dur: 0.85 }, // F4 ("more")
+        { freq: 392.0, delay: 1.68, dur: 0.5 },   // G4 ("be-side")
+        { freq: 415.3, delay: 2.1, dur: 0.55 },   // Ab4 ("you")
+      ],
+    },
+    // Bar 8: B♭7sus4 -> B♭7 ("...I'll stay with you")
+    {
+      bass: 116.54, // Bb2
+      arpeggio: [233.08, 293.66, 349.23, 415.3, 349.23, 293.66], // Bb3, D4, F4, Ab4
+      melody: [
+        { freq: 466.16, delay: 0.0, dur: 1.2 },   // Bb4 ("with")
+        { freq: 392.0, delay: 1.26, dur: 0.55 },  // G4 ("you...")
+        { freq: 349.23, delay: 1.68, dur: 0.9 },  // F4
+      ],
+    },
   ];
   let chordStep = 0;
 
@@ -314,24 +392,24 @@
     const ctx = ensureAudioContext();
     if (!ctx) return;
 
-    const chord = romanticProgression[chordStep % romanticProgression.length];
+    const bar = withYouProgression[chordStep % withYouProgression.length];
     chordStep++;
     const now = ctx.currentTime;
 
-    // Warm cello/bass foundation note
+    // 1. Warm cello/bass foundation note (6/8 ballad sustain)
     const bassOsc = ctx.createOscillator();
     const bassGain = ctx.createGain();
     bassOsc.type = 'sine';
-    bassOsc.frequency.setValueAtTime(chord.bass, now);
+    bassOsc.frequency.setValueAtTime(bar.bass, now);
     bassGain.gain.setValueAtTime(0.001, now);
-    bassGain.gain.linearRampToValueAtTime(0.08, now + 0.15);
-    bassGain.gain.exponentialRampToValueAtTime(0.0008, now + 2.3);
+    bassGain.gain.linearRampToValueAtTime(0.09, now + 0.18);
+    bassGain.gain.exponentialRampToValueAtTime(0.0008, now + 2.5);
     bassOsc.connect(bassGain).connect(ctx.destination);
     bassOsc.start(now);
-    bassOsc.stop(now + 2.35);
+    bassOsc.stop(now + 2.55);
 
-    // Delicate felted piano arpeggio
-    chord.notes.forEach((freq, idx) => {
+    // 2. Slow 6/8 acoustic piano accompaniment arpeggio (6 eighth-note beats per bar)
+    bar.arpeggio.forEach((freq, idx) => {
       const noteTime = now + idx * 0.42;
       const osc = ctx.createOscillator();
       const overtone = ctx.createOscillator();
@@ -343,11 +421,11 @@
       overtone.frequency.setValueAtTime(freq * 2, noteTime);
 
       gain.gain.setValueAtTime(0.001, noteTime);
-      gain.gain.linearRampToValueAtTime(0.055, noteTime + 0.03);
-      gain.gain.exponentialRampToValueAtTime(0.0008, noteTime + 1.55);
+      gain.gain.linearRampToValueAtTime(0.042, noteTime + 0.03);
+      gain.gain.exponentialRampToValueAtTime(0.0008, noteTime + 1.35);
 
       const overtoneGain = ctx.createGain();
-      overtoneGain.gain.value = 0.15;
+      overtoneGain.gain.value = 0.12;
 
       osc.connect(gain);
       overtone.connect(overtoneGain).connect(gain);
@@ -355,8 +433,37 @@
 
       osc.start(noteTime);
       overtone.start(noteTime);
-      osc.stop(noteTime + 1.6);
-      overtone.stop(noteTime + 1.6);
+      osc.stop(noteTime + 1.4);
+      overtone.stop(noteTime + 1.4);
+    });
+
+    // 3. Expressive vocal-line melody ("With you - Jimin, Ha Sung Woon")
+    bar.melody.forEach((m) => {
+      const start = now + m.delay;
+      const leadOsc = ctx.createOscillator();
+      const warmSub = ctx.createOscillator();
+      const leadGain = ctx.createGain();
+
+      leadOsc.type = 'triangle';
+      warmSub.type = 'sine';
+      leadOsc.frequency.setValueAtTime(m.freq, start);
+      warmSub.frequency.setValueAtTime(m.freq, start);
+
+      leadGain.gain.setValueAtTime(0.001, start);
+      leadGain.gain.linearRampToValueAtTime(0.068, start + 0.05);
+      leadGain.gain.exponentialRampToValueAtTime(0.0008, start + m.dur);
+
+      const triMix = ctx.createGain();
+      triMix.gain.value = 0.35;
+
+      warmSub.connect(leadGain);
+      leadOsc.connect(triMix).connect(leadGain);
+      leadGain.connect(ctx.destination);
+
+      warmSub.start(start);
+      leadOsc.start(start);
+      warmSub.stop(start + m.dur + 0.05);
+      leadOsc.stop(start + m.dur + 0.05);
     });
   }
 
@@ -376,10 +483,6 @@
     if (modalVinylArcText) {
       modalVinylArcText.textContent = arcLabel;
     }
-
-    if (vinylStatusText) {
-      vinylStatusText.textContent = isMusicPlaying ? 'Playing Our Song' : 'Tap Vinyl to Play Song';
-    }
   }
 
   function toggleWeddingMusic() {
@@ -390,7 +493,7 @@
         customAudioElement.play().catch(() => {});
       } else {
         playSynthChordStep();
-        melodyTimer = window.setInterval(playSynthChordStep, 1850);
+        melodyTimer = window.setInterval(playSynthChordStep, 2520);
       }
     } else {
       if (melodyTimer) {
@@ -465,6 +568,10 @@
   // Follows `same-document-transitions` guide from modern-web-guidance
   // =========================================================================
   function openFullInvitation() {
+    if (!isMusicPlaying) {
+      toggleWeddingMusic();
+    }
+
     const applyDOMSwitch = () => {
       if (boothPhotoStrip) boothPhotoStrip.style.viewTransitionName = '';
       if (collagePhotoStrip) collagePhotoStrip.style.viewTransitionName = 'shared-photo-strip';
@@ -648,13 +755,66 @@
   }
   requestAnimationFrame(renderPostcardCinemagraph);
 
-  moviePostcard?.addEventListener('click', () => {
-    moviePostcard.classList.toggle('cinema-expanded');
+  // Interactive overlap stacking for all 4 items in the Collage Stage
+  const vinylCluster = document.getElementById('vinylCluster');
+  const collageStripHolder = document.getElementById('collageStripHolder');
+  const formalInvitationCard = document.getElementById('formalInvitationCard');
+  const collageInteractiveItems = [
+    moviePostcard,
+    vinylCluster,
+    collageStripHolder,
+    formalInvitationCard,
+  ].filter(Boolean);
+
+  function bringCollageItemToFront(activeItem) {
+    collageInteractiveItems.forEach((item) => {
+      if (item !== activeItem) {
+        item.classList.remove('is-front', 'cinema-expanded');
+      }
+    });
+    if (activeItem) {
+      activeItem.classList.add('is-front');
+    }
+  }
+
+  collageInteractiveItems.forEach((item) => {
+    item.addEventListener('pointerenter', () => {
+      collageInteractiveItems.forEach((other) => {
+        if (other !== item) {
+          other.classList.remove('is-front', 'cinema-expanded');
+        }
+      });
+    });
+
+    item.addEventListener('focusin', () => {
+      bringCollageItemToFront(item);
+    });
+
+    item.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const wasFront = item.classList.contains('is-front');
+      if (wasFront && item === moviePostcard) {
+        item.classList.remove('is-front', 'cinema-expanded');
+      } else {
+        bringCollageItemToFront(item);
+      }
+    });
+
+    item.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        if (item === moviePostcard || item === collageStripHolder || item === formalInvitationCard) {
+          e.preventDefault();
+          bringCollageItemToFront(item);
+        }
+      }
+    });
   });
-  moviePostcard?.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      moviePostcard.classList.toggle('cinema-expanded');
+
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.collage-stage')) {
+      collageInteractiveItems.forEach((item) => {
+        item.classList.remove('is-front', 'cinema-expanded');
+      });
     }
   });
 
@@ -685,12 +845,12 @@
   });
 
   // =========================================================================
-  // 7. LIVE WEDDING COUNTDOWN TIMER (Synced to Event Date: December 17, 2026)
+  // 7. LIVE WEDDING COUNTDOWN TIMER (Synced to Event Date: December 17, 2026 at 1:00 PM)
   // Follows `calculate-event-differentials` guide from modern-web-guidance
   // =========================================================================
   const eventDateEl = document.getElementById('eventDateDisplay') || document.querySelector('.card-serif-emphasis');
   const eventDateStr = eventDateEl?.dataset.eventDate || '2026-12-17';
-  const eventTimeStr = eventDateEl?.dataset.eventTime || '15:30:00';
+  const eventTimeStr = eventDateEl?.dataset.eventTime || '13:00:00';
   const eventTz = eventDateEl?.dataset.eventTz || 'Asia/Manila';
 
   const cdDays = document.getElementById('cdDays');
@@ -768,6 +928,29 @@
   });
 
   // =========================================================================
+  // 8b. INTERACTIVE ENTOURAGE FILTER TABS (From Media 2)
+  // =========================================================================
+  const entourageTabs = document.querySelectorAll('.entourage-tab');
+  const entourageGroups = document.querySelectorAll('.entourage-group');
+
+  entourageTabs.forEach((tab) => {
+    tab.addEventListener('click', () => {
+      entourageTabs.forEach((t) => {
+        t.classList.remove('active');
+        t.setAttribute('aria-selected', 'false');
+      });
+      tab.classList.add('active');
+      tab.setAttribute('aria-selected', 'true');
+
+      const filter = tab.dataset.entourageFilter || 'all';
+      entourageGroups.forEach((group) => {
+        const cat = group.dataset.entourageCategory;
+        group.hidden = filter !== 'all' && cat !== filter;
+      });
+    });
+  });
+
+  // =========================================================================
   // 9. WAX-SEAL RSVP MODAL & LIGHT-DISMISS FALLBACK
   // Follows `light-dismiss-a-dialog` guide from modern-web-guidance
   // =========================================================================
@@ -831,6 +1014,26 @@
 
     revealEls.forEach((el) => observer.observe(el));
   }
+
+  // =========================================================================
+  // 10b. GIFT GUIDE — COPY ACCOUNT NAME BUTTON
+  // =========================================================================
+  const copyAccountNameBtn = document.getElementById('copyAccountNameBtn');
+  const bankAccountName = document.getElementById('bankAccountName');
+
+  copyAccountNameBtn?.addEventListener('click', async () => {
+    const accountName = bankAccountName?.textContent?.trim() || 'LOURDJESSA SIMENE PAPEL';
+    try {
+      await navigator.clipboard.writeText(accountName);
+      const origText = copyAccountNameBtn.textContent;
+      copyAccountNameBtn.textContent = '✓ Copied Account Name!';
+      setTimeout(() => {
+        copyAccountNameBtn.textContent = origText;
+      }, 2200);
+    } catch {
+      // Fallback if clipboard API is restricted
+    }
+  });
 
   // =========================================================================
   // 11. AMBIENT FLOATING DRIED BOTANICAL PETALS CANVAS

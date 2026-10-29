@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,9 +8,12 @@
   <!-- Google Fonts for Editorial Serif, Sweeping Calligraphy & Engraved Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=Great+Vibes&family=Montserrat:wght@300;400;500;600&family=Pinyon+Script&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=Great+Vibes&family=Montserrat:wght@300;400;500;600&family=Pinyon+Script&display=swap"
+    rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
+
 <body>
   <!-- Ambient Floating Botanical Petals & Warm Sunlight Overlay -->
   <canvas id="petalCanvas" class="ambient-canvas" aria-hidden="true"></canvas>
@@ -30,19 +34,15 @@
         <!-- Top Stage: Swaps from Metallic "PRESS THE BUTTON TO PRINT!" Plaque to "WE ARE GETTING MARRIED! Clifford & Jessa" -->
         <div class="booth-header-slot">
           <!-- State A: Interactive Metallic Push-Button Plaque (00:00 - 00:01) -->
-          <button
-            type="button"
-            id="printButtonPlaque"
-            class="metallic-plaque-btn"
-            aria-label="Press the button to print Save the Date photo strip"
-          >
+          <button type="button" id="printButtonPlaque" class="metallic-plaque-btn"
+            aria-label="Press the button to print Save the Date photo strip">
             <span class="rivet rivet-tl" aria-hidden="true"></span>
             <span class="rivet rivet-tr" aria-hidden="true"></span>
             <span class="rivet rivet-bl" aria-hidden="true"></span>
             <span class="rivet rivet-br" aria-hidden="true"></span>
             <span class="plaque-shimmer" aria-hidden="true"></span>
             <span class="plaque-text">
-              PRESS THE<br />BUTTON TO<br />PRINT!
+              PRESS THIS<br />BUTTON TO<br />PRINT!
             </span>
             <span class="plaque-tap-ring" aria-hidden="true"></span>
           </button>
@@ -73,11 +73,8 @@
 
                 <!-- Printed 4-Frame Photo Strip (Slides down from top printer slot!) -->
                 <div class="printed-strip-viewport" id="stripViewport">
-                  <article
-                    id="boothPhotoStrip"
-                    class="photo-strip"
-                    aria-label="Printed 4-frame wedding photo strip of Clifford and Jessa"
-                  >
+                  <article id="boothPhotoStrip" class="photo-strip"
+                    aria-label="Printed 4-frame wedding photo strip of Clifford and Jessa">
                     <div class="strip-frame" data-frame="0">
                       <canvas class="couple-frame-canvas" width="260" height="190" data-pose="1"></canvas>
                       <span class="frame-vintage-gloss"></span>
@@ -110,12 +107,8 @@
           <p id="boothDateDisplay" class="editorial-date-large">12. 17. 2026</p>
 
           <div class="booth-actions-row">
-            <button
-              type="button"
-              id="openInvitationBtn"
-              class="open-invitation-btn"
-              aria-label="Open full wedding invitation"
-            >
+            <button type="button" id="openInvitationBtn" class="open-invitation-btn"
+              aria-label="Open full wedding invitation">
               <span>OPEN INVITATION</span>
             </button>
           </div>
@@ -131,12 +124,12 @@
 
         <!-- 1. HERO VENUE & DATE HEADER ("MEET US AT..." at 00:07) -->
         <header class="invitation-hero-header scroll-reveal">
-          <p class="eyebrow-tracked">MEET US AT</p>
+          <p class="eyebrow-tracked">THE WEDDING OF</p>
           <h2 id="venueHeading" class="venue-script-heading" tabindex="-1">
-            Birhen sa Kasilak<br />
-            <span class="venue-city-script">Butuan City</span>
+            Clifford<span style="color: black; opacity: 0.25; transform: scale(.75);">&nbsp;&nbsp;+</span>
+            <span class="venue-city-script">Jessa</span>
           </h2>
-          <p class="hero-full-date" id="heroFullDate">THURSDAY, DECEMBER 17, 2026</p>
+          <p class="hero-full-date" id="heroFullDate">Avanceña • Papel</p>
           <div class="ornamental-divider" aria-hidden="true">
             <span class="divider-line"></span>
             <span class="divider-diamond">✦</span>
@@ -149,7 +142,8 @@
           <div class="collage-stage">
 
             <!-- A. WEDDING MOVIE POSTCARD (Tilted Top Card with Live Romantic Cinemagraph - 00:18) -->
-            <div class="movie-postcard-wrapper" id="moviePostcard" role="button" tabindex="0" aria-label="Wedding movie postcard — click to toggle full cinema mode">
+            <div class="movie-postcard-wrapper" id="moviePostcard" role="button" tabindex="0"
+              aria-label="Wedding movie postcard — click to toggle full cinema mode">
               <div class="postcard-inner">
                 <!-- Live Animated Golden-Hour Couple & Terracotta Floral Cinemagraph Canvas -->
                 <canvas id="postcardCinemaCanvas" class="postcard-cinema-canvas" width="680" height="440"></canvas>
@@ -174,20 +168,14 @@
                   <span class="film-live-badge">
                     <span class="film-dot"></span> WEDDING FILM POSTCARD
                   </span>
-                  <span class="postcard-couple-pill">Clifford &amp; Jessa</span>
                 </div>
               </div>
             </div>
 
             <!-- B. INTERACTIVE SPINNING VINYL RECORD ("embed your wedding song" - 00:08 & 00:15) -->
             <div class="vinyl-player-cluster" id="vinylCluster">
-              <button
-                type="button"
-                id="vinylRecordBtn"
-                class="vinyl-record-btn"
-                aria-pressed="false"
-                aria-label="Tap to play Clifford and Jessa's wedding song on vinyl"
-              >
+              <button type="button" id="vinylRecordBtn" class="vinyl-record-btn" aria-pressed="false"
+                aria-label="Tap to play Clifford and Jessa's wedding song on vinyl">
                 <div class="vinyl-disc" id="vinylDisc">
                   <!-- Grooves & Anisotropic Sheen -->
                   <div class="vinyl-grooves"></div>
@@ -201,24 +189,22 @@
                         <path id="bottomArc" d="M 174,100 A 74,74 0 1,1 26,100" />
                       </defs>
                       <!-- Outer decorative terracotta ring -->
-                      <circle cx="100" cy="100" r="94" fill="none" stroke="#B05334" stroke-width="1.2" stroke-opacity="0.45" />
-                      <circle cx="100" cy="100" r="88" fill="none" stroke="#C98C50" stroke-width="0.7" stroke-dasharray="3 3" stroke-opacity="0.6" />
+                      <circle cx="100" cy="100" r="94" fill="none" stroke="#B05334" stroke-width="1.2"
+                        stroke-opacity="0.45" />
+                      <circle cx="100" cy="100" r="88" fill="none" stroke="#C98C50" stroke-width="0.7"
+                        stroke-dasharray="3 3" stroke-opacity="0.6" />
 
                       <!-- Top curved song title -->
                       <text class="vinyl-arc-subtext">
                         <textPath href="#topArc" startOffset="50%" text-anchor="middle">
-                          OUR WEDDING SONG • C &amp; J
+                          WITH YOU • JIMIN, HA SUNG WOON
                         </textPath>
                       </text>
 
                       <!-- Center Calligraphic Monogram Flourish (Like 00:15 in video) -->
                       <path
                         d="M 52,108 C 65,68 95,65 88,98 C 82,122 60,118 72,96 C 85,72 122,74 116,105 C 112,126 138,118 148,88"
-                        fill="none"
-                        stroke="#5A3828"
-                        stroke-width="2.2"
-                        stroke-linecap="round"
-                      />
+                        fill="none" stroke="#5A3828" stroke-width="2.2" stroke-linecap="round" />
                       <text x="100" y="108" text-anchor="middle" class="vinyl-monogram-text">C &amp; J</text>
 
                       <!-- Bottom Curved "TAP TO PLAY" (Exact match to 00:15 in video) -->
@@ -239,17 +225,10 @@
                 <span class="note n2">♫</span>
                 <span class="note n3">♩</span>
               </div>
-
-              <div class="vinyl-controls-caption">
-                <button type="button" id="zoomVinylBtn" class="vinyl-caption-pill">
-                  <span id="vinylStatusText">Tap Vinyl to Play Song</span>
-                  <span aria-hidden="true">↗</span>
-                </button>
-              </div>
             </div>
 
             <!-- C. OVERLAPPING 4-FRAME PHOTO BOOTH STRIP (Right Side Tilted - 00:08 to 00:14) -->
-            <div class="collage-strip-holder" id="collageStripHolder" title="Click to inspect or customize photo strip">
+            <div class="collage-strip-holder" id="collageStripHolder" tabindex="0" role="button" aria-label="Photo booth strip — hover or tap to bring to front">
               <div class="photo-strip collage-photo-strip" id="collagePhotoStrip">
                 <div class="strip-frame">
                   <canvas class="couple-frame-canvas" width="260" height="190" data-pose="1"></canvas>
@@ -275,41 +254,39 @@
             </div>
 
             <!-- D. FORMAL HANDMADE CALLIGRAPHY INVITATION CARD (00:08 - 00:14) -->
-            <article class="formal-invitation-card" aria-label="Formal Invitation Note">
+            <article class="formal-invitation-card" id="formalInvitationCard" tabindex="0" aria-label="Formal Invitation Note — hover or tap to bring to front">
               <div class="card-inner-border">
-                <p class="card-small-caps">THE CELEBRATION IS TO BE HELD ON</p>
-                <p
-                  class="card-serif-emphasis"
-                  id="eventDateDisplay"
-                  data-event-date="2026-12-17"
-                  data-event-time="15:30:00"
-                  data-event-tz="Asia/Manila"
-                >DECEMBER 17, 2026</p>
-                <p class="card-serif-sub">BIRHEN SA KASILAK, BRGY. BADING, BUTUAN CITY</p>
-
-                <hr class="card-hairline" />
-
                 <blockquote class="handwritten-note">
                   We'd love for you to join us<br />
-                  at the wedding!<br />
-                  <span class="handwritten-signoff">xx Clifford &amp; Jessa</span>
+                  at the wedding!
                 </blockquote>
-
-                <hr class="card-hairline" />
-
-                <p class="card-footer-caps">RECEPTION &amp; DINNER TO FOLLOW</p>
               </div>
             </article>
-
           </div>
         </section>
 
-          <!-- 3. COUNTDOWN TIMER SECTION ("WE HOPE YOU CAN JOIN US IN..." at 00:08 - 00:14) -->
+        <!-- 3. CEREMONY & RECEPTION VENUE HIGHLIGHT BANNER (From Media 1) -->
+        <section class="venue-terracotta-banner scroll-reveal" aria-label="Ceremony and Reception Details">
+          <h6 class="terracotta-banner-script">
+            Ceremony
+          </h6>
+          <p class="terracotta-banner-date">BIRHEN SA KASILAK<br />MINDANAO SHRINE PARISH</p>
+          <p class="terracotta-banner-date-sub">Brgy. Bading, Butuan City</p>
+          <p class="terracotta-banner-time">December 17, 2026 • 1:00 PM</p>
+
+          <div class="terracotta-banner-reception">
+            <p class="terracotta-banner-script reception-script">Reception</p>
+            <p class="terracotta-banner-date-sub">to follow at</p>
+            <p class="terracotta-reception-label">Almont Inland Resort</p>
+          </div>
+        </section>
+
+        <!-- 4. COUNTDOWN TIMER SECTION ("WE HOPE YOU CAN JOIN US IN..." at 00:08 - 00:14) -->
         <section class="countdown-section scroll-reveal" aria-label="Wedding Countdown">
           <p class="eyebrow-tracked">WE HOPE YOU CAN JOIN US IN...</p>
           <div class="countdown-grid" id="countdownGrid" role="timer" aria-live="off">
             <div class="countdown-cell">
-              <span class="countdown-num" id="cdDays">49</span>
+              <span class="countdown-num" id="cdDays">48</span>
               <span class="countdown-label">DAYS</span>
             </div>
             <span class="countdown-colon" aria-hidden="true">:</span>
@@ -319,7 +296,7 @@
             </div>
             <span class="countdown-colon" aria-hidden="true">:</span>
             <div class="countdown-cell">
-              <span class="countdown-num" id="cdMinutes">30</span>
+              <span class="countdown-num" id="cdMinutes">48</span>
               <span class="countdown-label">MINUTES</span>
             </div>
             <span class="countdown-colon" aria-hidden="true">:</span>
@@ -330,81 +307,259 @@
           </div>
         </section>
 
-        <!-- 4. BOTANICAL COLOR PALETTE & DRESS CODE (Directly from Attached Floral & Moodboard Photos) -->
+        <!-- 5. THE WEDDING ENTOURAGE (From Media 2) -->
+        <section class="entourage-section scroll-reveal" aria-labelledby="entourageHeading">
+          <p class="eyebrow-tracked">HONORING THOSE BESIDE US</p>
+          <h3 id="entourageHeading" class="section-script-title">The Wedding Entourage</h3>
+
+          <!-- Interactive Filter Tabs for Entourage -->
+          <div class="entourage-filter-bar" role="tablist" aria-label="Filter entourage by role">
+            <button type="button" class="entourage-tab active" role="tab" aria-selected="true"
+              data-entourage-filter="all">
+              All
+            </button>
+            <button type="button" class="entourage-tab" role="tab" aria-selected="false"
+              data-entourage-filter="parents-sponsors">
+              Parents &amp; Principal Sponsors
+            </button>
+            <button type="button" class="entourage-tab" role="tab" aria-selected="false"
+              data-entourage-filter="wedding-party">
+              Best Man, Maid of Honor &amp; Party
+            </button>
+            <button type="button" class="entourage-tab" role="tab" aria-selected="false"
+              data-entourage-filter="secondary-bearers">
+              Secondary Sponsors &amp; Bearers
+            </button>
+          </div>
+
+          <div class="entourage-paper-card">
+            <!-- Parents -->
+            <div class="entourage-group" data-entourage-category="parents-sponsors">
+              <div class="entourage-two-col">
+                <div class="entourage-col">
+                  <h4 class="entourage-gold-ribbon">PARENTS OF THE GROOM</h4>
+                  <ul class="entourage-list">
+                    <li>Mr. Alvynn Cloyd L. Avanceña</li>
+                    <li>Mrs. Jocelyn G. Avanceña</li>
+                  </ul>
+                </div>
+                <div class="entourage-col">
+                  <h4 class="entourage-gold-ribbon">PARENTS OF THE BRIDE</h4>
+                  <ul class="entourage-list">
+                    <li>Mr. Lourdino M. Papel</li>
+                    <li>Mrs. Jessica S. Papel</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- Principal Sponsors -->
+            <div class="entourage-group" data-entourage-category="parents-sponsors">
+              <h4 class="entourage-gold-ribbon ribbon-wide">PRINCIPAL SPONSORS</h4>
+              <div class="entourage-two-col sponsors-grid">
+                <ul class="entourage-list">
+                  <li>Mrs. Nenith Fortun</li>
+                  <li>Mrs. Jane Ignilan</li>
+                  <li>Engr. Catherine Aparicio</li>
+                  <li>Engr. Gifaril M. Cabalquinto</li>
+                  <li>Mrs. Melody Ann A. Aradanas</li>
+                  <li>Mrs. Amor M. Estillore</li>
+                  <li>Mrs. Armilyn Pahunang</li>
+                  <li>Melissa Aradanas</li>
+                  <li>Mrs. Charley Tayler</li>
+                  <li>Mrs. Isidra Estrella P. Navarro</li>
+                  <li>Mrs. Leah M. Obedencia</li>
+                  <li>Mrs. Lasylee Marte</li>
+                </ul>
+                <ul class="entourage-list">
+                  <li>Mr. Greg Patrick Pabilonio</li>
+                  <li>Mr. Cesar M. Bontorostro</li>
+                  <li>Engr. Wilfredo B. Aparicio Jr.</li>
+                  <li>Mr. Melvyn A. Aradanas</li>
+                  <li>Mrs. Anwar Faharudin M. Maulana</li>
+                  <li>Engr. Judee Q. Estillore</li>
+                  <li>Mr. Jefrey Pahunang</li>
+                  <li>Mr. Marvin Aradanas</li>
+                  <li>Mr. Joel P. Avanceña</li>
+                  <li>Mr. Roy V. Navarro</li>
+                  <li>Mr. Hirome C. Obendencia</li>
+                  <li>Mr. Jerome Marte</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Best Man & Maid of Honor + Groomsmen & Bridesmaids -->
+            <div class="entourage-group" data-entourage-category="wedding-party">
+              <div class="entourage-two-col">
+                <div class="entourage-col">
+                  <h4 class="entourage-gold-ribbon">BEST MAN</h4>
+                  <ul class="entourage-list">
+                    <li>Mr. John Jaypee Greg D. Jamito</li>
+                  </ul>
+                </div>
+                <div class="entourage-col">
+                  <h4 class="entourage-gold-ribbon">MAID OF HONOR</h4>
+                  <ul class="entourage-list">
+                    <li>Ms. Loureca S. Papel</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="entourage-two-col mt-entourage">
+                <div class="entourage-col">
+                  <h4 class="entourage-gold-ribbon">GROOMSMEN</h4>
+                  <ul class="entourage-list">
+                    <li>Mr. Kent Argate</li>
+                    <li>Mr. Kent Marthy R. Anore</li>
+                    <li>Mr. Jerico Vellina</li>
+                    <li>Mr. Ryan Christian Coral</li>
+                    <li>Mr. William Cupay</li>
+                  </ul>
+                </div>
+                <div class="entourage-col">
+                  <h4 class="entourage-gold-ribbon">BRIDESMAIDS</h4>
+                  <ul class="entourage-list">
+                    <li>Ms. Ashley Mae G. Avanceña</li>
+                    <li>Ms. Stiffany Kate Baslot</li>
+                    <li>Ms. Cristina C. Tiu</li>
+                    <li>Ms. Jenevah Tara D. Pestañas</li>
+                    <li>Ms. Christine P. Macuno</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- Secondary Sponsors & Bearers -->
+            <div class="entourage-group" data-entourage-category="secondary-bearers">
+              <h4 class="entourage-gold-ribbon ribbon-wide">SECONDARY SPONSORS</h4>
+
+              <div class="secondary-sponsors-stack">
+                <div class="secondary-pair">
+                  <h5 class="entourage-sub-ribbon">CANDLE</h5>
+                  <div class="entourage-two-col">
+                    <span>Mr. Jerson Guerrero</span>
+                    <span>Mrs. Luningning Guerrero</span>
+                  </div>
+                </div>
+
+                <div class="secondary-pair">
+                  <h5 class="entourage-sub-ribbon">VEIL</h5>
+                  <div class="entourage-two-col">
+                    <span>Mr. Rizford Burdeos</span>
+                    <span>Mrs. Bernadette Burdeos</span>
+                  </div>
+                </div>
+
+                <div class="secondary-pair">
+                  <h5 class="entourage-sub-ribbon">CORD</h5>
+                  <div class="entourage-two-col">
+                    <span>Mr. Earnest Joefeb Arriola</span>
+                    <span>Mrs. Sheila Mae P. Arriola</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="entourage-three-col mt-entourage">
+                <div class="entourage-col">
+                  <h5 class="entourage-sub-ribbon">RING BEARER</h5>
+                  <p class="bearer-name">Clark Ezekiel D. Dapal</p>
+                </div>
+                <div class="entourage-col">
+                  <h5 class="entourage-sub-ribbon">SYMBOL OF TREASURE</h5>
+                  <p class="bearer-name">—</p>
+                </div>
+                <div class="entourage-col">
+                  <h5 class="entourage-sub-ribbon">BIBLE BEARER</h5>
+                  <p class="bearer-name">Asher Zeke D. Dapal</p>
+                </div>
+              </div>
+
+              <div class="mt-entourage">
+                <h4 class="entourage-gold-ribbon ribbon-wide">FLOWER GIRLS</h4>
+                <ul class="entourage-list flower-girls-list">
+                  <li>Bella Papel</li>
+                  <li>Niovi Dapal</li>
+                  <li>Eliana Guerrero</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 6. ATTIRE GUIDE & BOTANICAL COLOR PALETTE (From Media 4 & 5 + Floral Photos) -->
         <section class="palette-section scroll-reveal" aria-labelledby="paletteHeading">
-          <p class="eyebrow-tracked">DRESS CODE &amp; BOTANICAL MOOD</p>
-          <h3 id="paletteHeading" class="section-script-title">Sunset Terracotta &amp; Cream</h3>
+          <p class="eyebrow-tracked">DRESS CODE &amp; COLOR MOTIF</p>
+          <h3 id="paletteHeading" class="section-script-title">Attire Guide</h3>
           <p class="section-body-copy">
-            We kindly invite our guests to dress in formal garden attire inspired by our warm autumn botanical palette. Tap any floral swatch below to explore the shade.
+            Please use this guide for your attire as we celebrate in warm shades of terracotta, sunset peach, dusty
+            rose, beige, taupe, and champagne.
           </p>
+
+          <!-- Attire Cards for Principal Sponsors (Ninang & Ninong) & Guests (Gentlemen & Ladies) -->
+          <div class="attire-guide-cards">
+            <!-- Principal Sponsors Attire Card -->
+            <article class="attire-showcase-card">
+              <div class="attire-card-header">
+                <span class="eyebrow-tracked">PRINCIPAL SPONSORS</span>
+                <h4>Ninang &amp; Ninong</h4>
+              </div>
+              <figure class="attire-figure">
+                <img src="assets/attire-sponsors.jpg"
+                  alt="Attire Guide for Ninang and Ninong: Formal Long Gown in Beige, Taupe, and Champagne for Ninang; Formal open coat that suits our color motif for Ninong"
+                  loading="lazy" />
+              </figure>
+            </article>
+
+            <!-- Guests Attire Card (Gentlemen & Ladies) -->
+            <article class="attire-showcase-card">
+              <div class="attire-card-header">
+                <span class="eyebrow-tracked">GUESTS ATTIRE</span>
+                <h4>Gentlemen &amp; Ladies</h4>
+              </div>
+              <figure class="attire-figure">
+                <img src="assets/attire-guests.jpg"
+                  alt="Attire Guide for Gentlemen and Ladies featuring formal long-sleeve shirts with slacks for Gentlemen and flowing floor-length formal dresses for Ladies in terracotta, peach, blush, and taupe tones"
+                  loading="lazy" />
+              </figure>
+              <div class="attire-details-grid">
+                <div class="attire-role-box">
+                  <strong>GENTLEMEN</strong>
+                  <p>Formal long-sleeve button-down shirt in our motif shades paired with beige, taupe, or black slacks
+                  </p>
+                </div>
+                <div class="attire-role-box">
+                  <strong>LADIES</strong>
+                  <p>Formal long gown or flowing dress in terracotta, warm peach, dusty rose, blush, or mauve-taupe</p>
+                </div>
+              </div>
+            </article>
+          </div>
 
           <!-- Interactive 5 Floral Swatches from Photo 1 -->
           <div class="floral-swatch-row" role="listbox" aria-label="Wedding Color Palette Swatches">
-            <button
-              type="button"
-              class="swatch-item active"
-              role="option"
-              aria-selected="true"
-              data-color="#F2E4CE"
-              data-name="Cream Daffodils"
-              data-desc="Soft sunlit ivory &amp; warm champagne silk tones"
-            >
+            <button type="button" class="swatch-item active" role="option" aria-selected="true" data-color="#F2E4CE"
+              data-name="Cream Daffodils" data-desc="Soft sunlit ivory &amp; warm champagne silk tones">
               <span class="swatch-circle" style="--swatch-hex: #F2E4CE;"></span>
               <span class="swatch-flower-tag">CREAM</span>
               <span class="swatch-flower-name">DAFFODILS</span>
             </button>
 
-            <button
-              type="button"
-              class="swatch-item"
-              role="option"
-              aria-selected="false"
-              data-color="#C98C50"
-              data-name="Amber Banyan Leaves"
-              data-desc="Golden honeyed amber, warm ochre &amp; bronze accents"
-            >
+            <button type="button" class="swatch-item" role="option" aria-selected="false" data-color="#C98C50"
+              data-name="Amber Banyan Leaves" data-desc="Golden honeyed amber, warm ochre &amp; bronze accents">
               <span class="swatch-circle" style="--swatch-hex: #C98C50;"></span>
               <span class="swatch-flower-tag">AMBER</span>
               <span class="swatch-flower-name">BANYAN LEAVES</span>
             </button>
 
-            <button
-              type="button"
-              class="swatch-item"
-              role="option"
-              aria-selected="false"
-              data-color="#F7F1E8"
-              data-name="Cream Blooming Peony"
-              data-desc="Delicate alabaster, pearl linen &amp; soft cream tailoring"
-            >
+            <button type="button" class="swatch-item" role="option" aria-selected="false" data-color="#F7F1E8"
+              data-name="Cream Blooming Peony" data-desc="Delicate alabaster, pearl linen &amp; soft cream tailoring">
               <span class="swatch-circle" style="--swatch-hex: #F7F1E8;"></span>
               <span class="swatch-flower-tag">CREAM</span>
               <span class="swatch-flower-name">BLOOMING PEONY</span>
             </button>
 
-            <button
-              type="button"
-              class="swatch-item"
-              role="option"
-              aria-selected="false"
-              data-color="#D88046"
-              data-name="Sunset Yellow Vendela Rose"
-              data-desc="Radiant sunset apricot, warm peach &amp; marigold undertones"
-            >
-              <span class="swatch-circle" style="--swatch-hex: #D88046;"></span>
-              <span class="swatch-flower-tag">SUNSET YELLOW</span>
-              <span class="swatch-flower-name">VENDELA ROSE</span>
-            </button>
-
-            <button
-              type="button"
-              class="swatch-item"
-              role="option"
-              aria-selected="false"
-              data-color="#B05334"
-              data-name="Terracotta Anthuriums"
-              data-desc="Rich burnt sienna, spiced terracotta &amp; rust velvet"
-            >
+            <button type="button" class="swatch-item" role="option" aria-selected="false" data-color="#B05334"
+              data-name="Terracotta Anthuriums" data-desc="Rich burnt sienna, spiced terracotta &amp; rust velvet">
               <span class="swatch-circle" style="--swatch-hex: #B05334;"></span>
               <span class="swatch-flower-tag">TERRACOTTA</span>
               <span class="swatch-flower-name">ANTHURIUMS</span>
@@ -419,92 +574,165 @@
               <p id="inspectorDesc">Soft sunlit ivory &amp; warm champagne silk tones</p>
             </div>
           </div>
-
-          <!-- Interactive Moodboard & Floral Gallery from Uploaded Photos -->
-          <div class="moodboard-bento-grid">
-            <figure class="bento-card bento-tall">
-              <img src="assets/floral-palette.png" alt="Bridal bouquet featuring Cream Daffodils, Amber Banyan Leaves, Cream Blooming Peony, Sunset Yellow Vendela Rose, and Terracotta Anthuriums" loading="lazy" />
-              <figcaption>The Signature Bouquet</figcaption>
-            </figure>
-            <figure class="bento-card">
-              <img src="assets/ceremony-arch.png" alt="Golden hour floral arch with terracotta roses and pampas grass" loading="lazy" />
-              <figcaption>Golden Hour Ceremony Arch</figcaption>
-            </figure>
-            <figure class="bento-card">
-              <img src="assets/tablescape.png" alt="Terracotta plateware, gold flatware, and cream floral centerpiece" loading="lazy" />
-              <figcaption>Reception Tablescape</figcaption>
-            </figure>
-            <figure class="bento-card">
-              <img src="assets/bouquet-bride.png" alt="Bride holding cappuccino and terracotta rose bouquet with dried palm spears" loading="lazy" />
-              <figcaption>Dried Palm &amp; Vendela Roses</figcaption>
-            </figure>
-            <figure class="bento-card">
-              <img src="assets/wedding-cake.png" alt="Two-tier cream wedding cake adorned with terracotta roses" loading="lazy" />
-              <figcaption>Artisanal Floral Cake</figcaption>
-            </figure>
-            <figure class="bento-card">
-              <img src="assets/stationery-suite.png" alt="Terracotta envelope with wax seal, silk ribbon, and handmade calligraphy suite" loading="lazy" />
-              <figcaption>Handmade Wax-Seal Suite</figcaption>
-            </figure>
-          </div>
         </section>
 
-        <!-- 5. ORDER OF EVENTS TIMELINE -->
+        <!-- 7. ORDER OF EVENTS TIMELINE (Updated for 1:00 PM Ceremony & Almont Inland Resort Reception) -->
         <section class="timeline-section scroll-reveal" aria-labelledby="timelineHeading">
           <p class="eyebrow-tracked">THE CELEBRATION</p>
           <h3 id="timelineHeading" class="section-script-title">Order of Events</h3>
 
           <div class="timeline-list">
             <div class="timeline-item scroll-reveal">
-              <span class="timeline-time">3:30 PM</span>
+              <span class="timeline-time">12:00 NN</span>
               <span class="timeline-marker" aria-hidden="true"></span>
               <div class="timeline-content">
-                <h4>Garden Ceremony</h4>
-                <p>Exchange of vows beneath the terracotta &amp; pampas floral arch at the Sunlit Lawn.</p>
+                <h4>Guest Arrival &amp; Seating</h4>
+                <p>Birhen sa Kasilak Mindanao Shrine Parish — Kindly arrive at least one hour before the ceremony to
+                  settle in comfortably.</p>
               </div>
             </div>
 
             <div class="timeline-item scroll-reveal">
-              <span class="timeline-time">4:30 PM</span>
+              <span class="timeline-time">1:00 PM</span>
               <span class="timeline-marker" aria-hidden="true"></span>
               <div class="timeline-content">
-                <h4>Golden Hour Aperitivo &amp; Photo Booth</h4>
-                <p>Acoustic vinyl lounge, signature spiced citrus cocktails &amp; instant photo booth prints.</p>
+                <h4>Wedding Ceremony</h4>
+                <p>Solemn exchange of marriage vows and nuptial blessing at Birhen sa Kasilak Mindanao Shrine Parish.
+                </p>
               </div>
             </div>
 
             <div class="timeline-item scroll-reveal">
-              <span class="timeline-time">6:00 PM</span>
+              <span class="timeline-time">2:30 PM</span>
               <span class="timeline-marker" aria-hidden="true"></span>
               <div class="timeline-content">
-                <h4>Candlelit Conservatory Dinner</h4>
-                <p>A multi-course harvest feast, champagne toasts &amp; cake cutting.</p>
+                <h4>Post-Ceremony Photos &amp; Travel to Reception</h4>
+                <p>Celebratory photos with the newlyweds followed by transfer to Almont Inland Resort Butuan.</p>
               </div>
             </div>
 
             <div class="timeline-item scroll-reveal">
-              <span class="timeline-time">8:30 PM</span>
+              <span class="timeline-time">4:00 PM</span>
               <span class="timeline-marker" aria-hidden="true"></span>
               <div class="timeline-content">
-                <h4>First Dance &amp; Afterparty</h4>
-                <p>Dancing under the stars with sparklers and late-night espresso martinis.</p>
+                <h4>Reception &amp; Banquet Dinner</h4>
+                <p>Grand entrance, dinner celebration, heartfelt toasts, and first dance at Almont Inland Resort Butuan.
+                </p>
               </div>
             </div>
           </div>
         </section>
 
-        <!-- 6. WAX SEAL ENVELOPE & RSVP CTA SECTION -->
-        <section class="rsvp-envelope-section scroll-reveal" aria-labelledby="rsvpSectionHeading">
+        <!-- 8. IMPORTANT REMINDERS, FAQs & UNPLUGGED CEREMONY REQUEST (From Media 3) -->
+        <section class="reminders-faq-section scroll-reveal" aria-labelledby="remindersHeading">
+          <p class="eyebrow-tracked">GENTLE REMINDERS &amp; FAQs</p>
+          <h3 id="remindersHeading" class="section-script-title">Notes for Our Guests</h3>
+
+          <div class="faq-cards-stack">
+            <article class="faq-card">
+              <h4 class="faq-question">What time should I arrive?</h4>
+              <p class="faq-answer">
+                We’d love for you to be comfortably seated before the ceremony begins! To help everything go smoothly
+                and allow everyone to settle in, we kindly recommend arriving at least one hour before the ceremony. We
+                can’t wait to share this special moment with you!
+              </p>
+            </article>
+
+            <article class="faq-card">
+              <h4 class="faq-question">Can I bring someone else to your wedding with me?</h4>
+              <p class="faq-answer">
+                We’re so happy to celebrate this special day with you! However, due to our limited venue capacity, we’re
+                only able to accommodate the guests included on our guest list. Each seat has been thoughtfully reserved
+                for a specific guest, so we kindly ask that you join us only if your name is on the invitation. Thank
+                you so much for understanding and for being part of our special day.
+              </p>
+            </article>
+
+            <article class="faq-card unplugged-heart-card">
+              <span class="unplugged-badge">📵 UNPLUGGED CEREMONY</span>
+              <h4 class="faq-question">A Little Request from our Hearts</h4>
+              <div class="faq-answer unplugged-paragraphs">
+                <p>
+                  As we begin this beautiful new chapter of our lives, we hope to share our wedding ceremony with all of
+                  you in the most meaningful way. We wish to keep this special moment solemn and intimate, allowing us
+                  to be fully present as we exchange our vows and become husband and wife.
+                </p>
+                <p>
+                  With love, we kindly ask everyone to refrain from taking photos or videos during the ceremony. Please
+                  leave the capturing of these precious moments to our wonderful photography and videography team.
+                </p>
+                <p>
+                  Once we are announced as husband and wife, feel free to take out your phones, snap photos, and
+                  celebrate this special moment with us!
+                </p>
+                <p>
+                  Don't worry, we'll make sure to share our wedding photos with you after the celebration so we can all
+                  look back on these beautiful memories together.
+                </p>
+                <p class="unplugged-closing">
+                  Thank you for understanding and for being part of one of the most meaningful days of our lives. Your
+                  presence means so much to us, and we can't wait to celebrate this love with you!
+                </p>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- 9. MONETARY GIFT & BANK TRANSFER QR SECTION -->
+        <section class="gifts-section scroll-reveal" aria-labelledby="giftsHeading">
+          <p class="eyebrow-tracked">A NOTE ON GIFTS</p>
+          <h3 id="giftsHeading" class="section-script-title">Gift Guide</h3>
+          <p class="section-body-copy gifts-caption">
+            Your presence is already a gift for us, but if you feel called to give, a monetary gift is one we warmly
+            suggest as we begin building our new life together.
+          </p>
+
+          <article class="gift-qr-card" aria-label="UnionBank InstaPay QR Code for Bank Transfers">
+            <div class="gift-bank-header">
+              <span class="bank-pill-badge">UnionBank • InstaPay</span>
+              <h4 class="bank-account-name" id="bankAccountName">LOURDJESSA SIMENE PAPEL</h4>
+              <p class="bank-account-number">**** **** 9909</p>
+            </div>
+
+            <figure class="gift-qr-frame">
+              <img
+                src="assets/gift-qr.png"
+                alt="UnionBank InstaPay QR Code for Lourdjessa Simene Papel (ending in 9909)"
+                class="gift-qr-img"
+                width="503"
+                height="504"
+                loading="lazy"
+              />
+            </figure>
+
+            <p class="gift-scan-hint">Scan directly with any banking or e-wallet app via InstaPay, or save the QR code below.</p>
+
+            <div class="gift-actions-row">
+              <a
+                href="assets/unionbank-qr-card.png"
+                download="Clifford-and-Jessa-UnionBank-QR.png"
+                class="primary-terracotta-btn gift-download-btn"
+              >
+                Download QR Code
+              </a>
+            </div>
+          </article>
+        </section>
+
+        <!-- 10. WAX SEAL ENVELOPE & RSVP CTA SECTION -->
+        <section class="rsvp-envelope-section" aria-labelledby="rsvpSectionHeading">
           <div class="terracotta-envelope-card">
             <div class="envelope-flap-graphic" aria-hidden="true"></div>
             <p class="eyebrow-tracked">KINDLY RESPOND BY DECEMBER 10, 2026</p>
             <h3 id="rsvpSectionHeading" class="section-script-title">Reserve Your Seat</h3>
             <p class="section-body-copy">
-              Tap the terracotta wax seal below to open your personal RSVP card, select your dinner entrée, and request a song for our vinyl turntable.
+              Tap the terracotta wax seal below to open your personal RSVP card, select your dinner entrée, and request
+              a song for our vinyl turntable.
             </p>
 
             <!-- Interactive Terracotta Wax Seal Button -->
-            <button type="button" id="waxSealRsvpBtn" class="wax-seal-btn" aria-label="Press wax seal to open RSVP form">
+            <button type="button" id="waxSealRsvpBtn" class="wax-seal-btn"
+              aria-label="Press wax seal to open RSVP form">
               <span class="wax-seal-outer">
                 <span class="wax-seal-inner">
                   <span class="wax-monogram">C&amp;J</span>
@@ -537,7 +765,8 @@
        ===================================================================== -->
   <dialog id="vinylModal" class="luxury-dialog vinyl-dialog" closedby="any" aria-labelledby="vinylModalTitle">
     <div class="dialog-sheet vinyl-sheet">
-      <button type="button" class="dialog-close-btn" data-close-dialog="vinylModal" aria-label="Close turntable view">✕</button>
+      <button type="button" class="dialog-close-btn" data-close-dialog="vinylModal"
+        aria-label="Close turntable view">✕</button>
       <p class="eyebrow-tracked">EMBED YOUR WEDDING SONG 🕊️</p>
       <h2 id="vinylModalTitle" class="dialog-script-title">Our Wedding Turntable</h2>
 
@@ -554,16 +783,12 @@
               <circle cx="100" cy="100" r="94" fill="none" stroke="#B05334" stroke-width="1.2" stroke-opacity="0.45" />
               <text class="vinyl-arc-subtext">
                 <textPath href="#modalTopArc" startOffset="50%" text-anchor="middle">
-                  CLIFFORD &amp; JESSA • FIRST DANCE
+                  WITH YOU • JIMIN, HA SUNG WOON
                 </textPath>
               </text>
               <path
                 d="M 52,108 C 65,68 95,65 88,98 C 82,122 60,118 72,96 C 85,72 122,74 116,105 C 112,126 138,118 148,88"
-                fill="none"
-                stroke="#5A3828"
-                stroke-width="2.2"
-                stroke-linecap="round"
-              />
+                fill="none" stroke="#5A3828" stroke-width="2.2" stroke-linecap="round" />
               <text x="100" y="108" text-anchor="middle" class="vinyl-monogram-text">C &amp; J</text>
               <text class="vinyl-arc-tap">
                 <textPath href="#modalBottomArc" startOffset="50%" text-anchor="middle" id="modalVinylArcText">
@@ -578,7 +803,7 @@
         <div class="tonearm" id="tonearm" aria-hidden="true"></div>
       </div>
 
-      <p class="song-title-display" id="currentSongTitle">“In Love in the Silence (Acoustic Piano &amp; Strings Serenade)”</p>
+      <p class="song-title-display" id="currentSongTitle">“With you - Jimin, Ha Sung Woon”</p>
 
       <div class="turntable-actions">
         <button type="button" id="modalPlayToggleBtn" class="primary-terracotta-btn">
@@ -599,14 +824,16 @@
        ===================================================================== -->
   <dialog id="rsvpModal" class="luxury-dialog rsvp-dialog" closedby="any" aria-labelledby="rsvpModalTitle">
     <div class="dialog-sheet">
-      <button type="button" class="dialog-close-btn" data-close-dialog="rsvpModal" aria-label="Close RSVP dialog">✕</button>
+      <button type="button" class="dialog-close-btn" data-close-dialog="rsvpModal"
+        aria-label="Close RSVP dialog">✕</button>
       <p class="eyebrow-tracked">THE CELEBRATION OF CLIFFORD &amp; JESSA</p>
       <h2 id="rsvpModalTitle" class="dialog-script-title">Répondez S'il Vous Plaît</h2>
 
       <form id="rsvpForm" class="rsvp-form">
         <div class="form-field">
           <label for="guestName">Full Name(s)</label>
-          <input type="text" id="guestName" name="guestName" required placeholder="e.g., Sophia &amp; Alexander Laurent" autocomplete="name" />
+          <input type="text" id="guestName" name="guestName" required placeholder="e.g., Sophia &amp; Alexander Laurent"
+            autocomplete="name" />
         </div>
 
         <div class="form-row-2">
@@ -630,22 +857,9 @@
         </div>
 
         <div class="form-field">
-          <label for="mealPreference">Harvest Dinner Entrée</label>
-          <select id="mealPreference" name="meal">
-            <option value="herb_crusted_tenderloin">Herb-Crusted Beef Tenderloin &amp; Truffle Jus</option>
-            <option value="miso_sea_bass">Pan-Seared Chilean Sea Bass &amp; Saffron Cream</option>
-            <option value="roasted_butternut_risotto">Wild Mushroom &amp; Roasted Butternut Risotto (Vegetarian)</option>
-          </select>
-        </div>
-
-        <div class="form-field">
-          <label for="songRequest">Song Request for Our Vinyl Turntable</label>
-          <input type="text" id="songRequest" name="songRequest" placeholder="What song will get you on the dance floor?" />
-        </div>
-
-        <div class="form-field">
           <label for="guestMessage">Note for the Couple</label>
-          <textarea id="guestMessage" name="message" rows="2" placeholder="Share your wishes for Clifford &amp; Jessa..."></textarea>
+          <textarea id="guestMessage" name="message" rows="2"
+            placeholder="Share your wishes for Clifford &amp; Jessa..."></textarea>
         </div>
 
         <button type="submit" class="primary-terracotta-btn full-width-btn">
@@ -657,5 +871,5 @@
 
   <script src="script.js"></script>
 </body>
-</html>
 
+</html>
