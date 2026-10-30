@@ -85,7 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             exit;
         }
 
-        header('Location: index.php?submitted=1', true, 303);
+        header('Location: index.html?submitted=1', true, 303);
         exit;
     }
 
