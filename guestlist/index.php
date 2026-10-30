@@ -129,8 +129,8 @@ if ($isSaveRequest) {
 
     $attendanceKey = ($attendance === 'regretfully_declines') ? 'regretfully_declines' : 'joyfully_accepts';
     $attendanceLabel = ($attendanceKey === 'regretfully_declines')
-        ? 'Regretfully Declines'
-        : 'Joyfully Accepts';
+        ? 'Can\'t make it'
+        : 'Confirmed  ';
 
     $acceptHeader = isset($_SERVER['HTTP_ACCEPT']) ? $_SERVER['HTTP_ACCEPT'] : '';
     $xhrHeader = isset($_SERVER['HTTP_X_REQUESTED_WITH']) ? strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) : '';
@@ -593,11 +593,11 @@ $fileWritable = file_exists($jsonFile) ? is_writable($jsonFile) : $dirWritable;
       </div>
       <div class="stat-card">
         <div class="stat-num" id="statAccepts"><?php echo (int)$attendingCount; ?></div>
-        <div class="stat-label">Joyfully Accepts</div>
+        <div class="stat-label">Confirmed</div>
       </div>
       <div class="stat-card">
         <div class="stat-num" id="statDeclines"><?php echo (int)$decliningCount; ?></div>
-        <div class="stat-label">Regretfully Declines</div>
+        <div class="stat-label">Declined</div>
       </div>
       <div class="stat-card">
         <div class="stat-num" id="statRestrictions"><?php echo (int)$restrictionsCount; ?></div>
