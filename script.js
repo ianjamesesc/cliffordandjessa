@@ -1029,7 +1029,7 @@
       bodyParams.set('foodRestrictions', foodRestrictions);
       bodyParams.set('message', message);
 
-      const response = await fetch('guestlist/index.php', {
+      let response = await fetch('guestlist/index.php?ajax=1', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
@@ -1039,15 +1039,26 @@
         body: bodyParams.toString(),
       });
 
-      const rawText = await response.text();
+      let rawText = await response.text();
       let data = null;
       try {
         data = JSON.parse(rawText);
       } catch {
-        if (rawText.includes('<?php')) {
-          serverErrorMsg = 'Note: PHP is not enabled in httpd yet (saved locally in browser).';
-        } else {
-          serverErrorMsg = `Server returned non-JSON response (HTTP ${response.status}).`;
+        data = null;
+      }
+
+      // Fallback: if POST body was stripped by a redirect/proxy, retry with query params
+      if (!data || data.ok !== true) {
+        const getRes = await fetch(`guestlist/index.php?action=save&ajax=1&${bodyParams.toString()}`, {
+          method: 'GET',
+          headers: { Accept: 'application/json' },
+          cache: 'no-store',
+        });
+        rawText = await getRes.text();
+        try {
+          data = JSON.parse(rawText);
+        } catch {
+          data = null;
         }
       }
 
@@ -1055,6 +1066,10 @@
         rsvpForm.reset();
       } else if (data && data.error) {
         serverErrorMsg = `${data.error}${data.fixHint ? ' — ' + data.fixHint : ''}`;
+      } else if (rawText.includes('<?php')) {
+        serverErrorMsg = 'Note: PHP is not enabled in httpd yet (saved locally in browser).';
+      } else {
+        serverErrorMsg = `Server returned non-JSON response (HTTP ${response.status}).`;
       }
     } catch {
       serverErrorMsg = 'Saved locally (PHP endpoint unreachable).';
