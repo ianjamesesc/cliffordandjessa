@@ -864,7 +864,40 @@
     </div>
   </dialog>
 
-  <script src="script.js?v=5"></script>
+  <!-- =====================================================================
+       MODAL 3: WAX-SEALED RSVP CONFIRMATION MODAL
+       Uses native <dialog closedby="any"> + JS backdrop fallback
+       ===================================================================== -->
+  <dialog id="rsvpSuccessModal" class="luxury-dialog rsvp-success-dialog" closedby="any" aria-labelledby="rsvpSuccessTitle">
+    <div class="dialog-sheet rsvp-success-sheet">
+      <button type="button" class="dialog-close-btn" data-close-dialog="rsvpSuccessModal"
+        aria-label="Close confirmation dialog">✕</button>
+
+      <div class="rsvp-success-seal" aria-hidden="true">
+        <span class="wax-seal-outer">
+          <span class="wax-seal-inner">
+            <span class="wax-monogram">C&amp;J</span>
+            <span class="wax-sub">SEALED</span>
+          </span>
+        </span>
+      </div>
+
+      <p class="eyebrow-tracked">RSVP CONFIRMED</p>
+      <h2 id="rsvpSuccessTitle" class="dialog-script-title">Thank You!</h2>
+      <p id="rsvpSuccessMessage" class="rsvp-success-copy">
+        Your wax-sealed RSVP has been recorded.
+      </p>
+      <p class="rsvp-success-subcopy">
+        We look forward to celebrating with you on December 17, 2026!
+      </p>
+
+      <button type="button" class="primary-terracotta-btn full-width-btn" data-close-dialog="rsvpSuccessModal">
+        Done
+      </button>
+    </div>
+  </dialog>
+
+  <script src="script.js?v=6"></script>
 </body>
 
 </html>

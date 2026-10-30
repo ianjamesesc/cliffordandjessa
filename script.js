@@ -980,6 +980,22 @@
     });
   }
 
+  const rsvpSuccessModal = document.getElementById('rsvpSuccessModal');
+  const rsvpSuccessMessage = document.getElementById('rsvpSuccessMessage');
+
+  function showRsvpSuccessModal(guestName) {
+    const confirmationText = `Thank you, ${guestName}! Your wax-sealed RSVP has been recorded.`;
+    if (rsvpSuccessMessage) {
+      rsvpSuccessMessage.textContent = confirmationText;
+    }
+    if (rsvpSavedBadge) {
+      rsvpSavedBadge.hidden = false;
+      rsvpSavedBadge.textContent = `✓ ${confirmationText}`;
+    }
+    rsvpModal?.close();
+    rsvpSuccessModal?.showModal();
+  }
+
   // Submit RSVP in the background via fetch so the guest always stays on index.html
   rsvpForm?.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -1038,11 +1054,7 @@
       }
     }
 
-    if (rsvpSavedBadge) {
-      rsvpSavedBadge.hidden = false;
-      rsvpSavedBadge.textContent = `✓ Thank you, ${guestName}! Your wax-sealed RSVP has been recorded.`;
-    }
-    rsvpModal?.close();
+    showRsvpSuccessModal(guestName);
   });
 
   // Handle return redirect from guestlist/index.php after RSVP submission (?rsvp=submitted)
@@ -1063,14 +1075,7 @@
     if (openInvitationBtn) {
       openInvitationBtn.classList.add('btn-visible');
     }
-    if (rsvpSavedBadge) {
-      rsvpSavedBadge.hidden = false;
-      rsvpSavedBadge.textContent = `✓ Thank you, ${submittedGuest}! Your wax-sealed RSVP has been recorded.`;
-    }
-    const rsvpHeading = document.getElementById('rsvpSectionHeading');
-    setTimeout(() => {
-      rsvpHeading?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }, 100);
+    showRsvpSuccessModal(submittedGuest);
     if (window.history && window.history.replaceState) {
       window.history.replaceState({}, document.title, window.location.pathname + window.location.hash);
     }

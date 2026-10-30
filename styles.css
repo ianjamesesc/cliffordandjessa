@@ -1957,6 +1957,38 @@ body {
   margin-top: 6px;
 }
 
+/* RSVP Confirmation Modal */
+.rsvp-success-dialog {
+  width: min(90vw, 400px);
+}
+
+.rsvp-success-sheet {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.rsvp-success-seal {
+  margin-bottom: 14px;
+}
+
+.rsvp-success-copy {
+  font-family: var(--font-serif);
+  font-size: 1.18rem;
+  font-weight: 600;
+  line-height: 1.45;
+  color: var(--ink-espresso);
+  margin-bottom: 8px;
+}
+
+.rsvp-success-subcopy {
+  font-family: var(--font-serif);
+  font-size: 0.98rem;
+  line-height: 1.45;
+  color: var(--ink-umber);
+  margin-bottom: 18px;
+}
+
 /* ==========================================================================
    CEREMONY & RECEPTION VENUE TERRACOTTA BANNER (From Media 1)
    ========================================================================== */
