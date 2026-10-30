@@ -179,6 +179,8 @@ if ($isSaveRequest) {
                 ));
                 exit;
             }
+            header('Location: ../index.html?rsvp=submitted&guest=' . rawurlencode($guestName) . '#rsvpSectionHeading', true, 303);
+            exit;
         } else {
             if ($wantsJson) {
                 header('Content-Type: application/json; charset=utf-8');
@@ -189,9 +191,12 @@ if ($isSaveRequest) {
                 ));
                 exit;
             }
-            header('Location: index.php?submitted=1', true, 303);
+            header('Location: ../index.html?rsvp=submitted&guest=' . rawurlencode($guestName) . '#rsvpSectionHeading', true, 303);
             exit;
         }
+    } else {
+        header('Location: ../index.html#rsvpSectionHeading', true, 303);
+        exit;
     }
 }
 

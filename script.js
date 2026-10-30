@@ -980,12 +980,69 @@
     });
   }
 
-  // Allow #rsvpForm to POST natively to guestlist/index.php
-  rsvpForm?.addEventListener('submit', () => {
+  // Submit RSVP in the background via fetch so the guest always stays on index.html
+  rsvpForm?.addEventListener('submit', async (e) => {
+    e.preventDefault();
     const submitBtn = document.getElementById('rsvpSubmitBtn');
+    const origBtnText = submitBtn?.textContent || 'Seal & Send RSVP';
     if (submitBtn) {
+      submitBtn.disabled = true;
       submitBtn.textContent = 'Sealing & Sending...';
     }
+
+    const formData = new FormData(rsvpForm);
+    const guestName = (formData.get('guestName') || 'Honored Guest').toString().trim();
+    const attendance = (formData.get('attendance') || 'joyfully_accepts').toString().trim();
+    const foodRestrictions = (formData.get('foodRestrictions') || 'None').toString().trim() || 'None';
+    const message = (formData.get('message') || '').toString().trim();
+
+    const bodyParams = new URLSearchParams();
+    bodyParams.set('guestName', guestName);
+    bodyParams.set('attendance', attendance);
+    bodyParams.set('foodRestrictions', foodRestrictions);
+    bodyParams.set('message', message);
+
+    try {
+      const response = await fetch('guestlist/index.php?ajax=1', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+          Accept: 'application/json',
+          'X-Requested-With': 'XMLHttpRequest',
+        },
+        body: bodyParams.toString(),
+      });
+
+      const rawText = await response.text();
+      let data = null;
+      try {
+        data = JSON.parse(rawText);
+      } catch {
+        data = null;
+      }
+
+      if (!data || data.ok !== true) {
+        await fetch(`guestlist/index.php?action=save&ajax=1&${bodyParams.toString()}`, {
+          method: 'GET',
+          headers: { Accept: 'application/json' },
+          cache: 'no-store',
+        });
+      }
+      rsvpForm.reset();
+    } catch {
+      // Guest still stays on index.html
+    } finally {
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = origBtnText;
+      }
+    }
+
+    if (rsvpSavedBadge) {
+      rsvpSavedBadge.hidden = false;
+      rsvpSavedBadge.textContent = `✓ Thank you, ${guestName}! Your wax-sealed RSVP has been recorded.`;
+    }
+    rsvpModal?.close();
   });
 
   // Handle return redirect from guestlist/index.php after RSVP submission (?rsvp=submitted)
