@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,8 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
     href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Great+Vibes&family=Montserrat:wght@300;400;500;600&display=swap"
-    rel="stylesheet"
-  />
+    rel="stylesheet" />
   <style>
     :root {
       --bg-parchment: #FCF9F4;
@@ -26,7 +26,9 @@
       --font-sans: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
     }
 
-    *, *::before, *::after {
+    *,
+    *::before,
+    *::after {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
@@ -320,17 +322,20 @@
       .stats-grid {
         grid-template-columns: repeat(2, 1fr);
       }
-      th, td {
+
+      th,
+      td {
         padding: 11px 12px;
       }
     }
   </style>
 </head>
+
 <body>
   <main class="guestlist-container">
     <div class="top-bar">
       <a href="../index.html" class="back-link">← Back to Wedding Invitation</a>
-      <button type="button" id="exportCsvBtn" class="back-link" style="cursor: pointer;">⬇ Export CSV</button>
+      <button type="button" id="exportCsvBtn" class="back-link" style="cursor: pointer;">Download CSV</button>
     </div>
 
     <header class="header-block">
@@ -342,6 +347,8 @@
     <div id="submittedBanner" class="toast-banner" role="status" hidden>
       ✓ Thank you! Your RSVP response has been saved to the guest list.
     </div>
+
+    <div id="diagnosticBanner" class="toast-banner" role="alert" hidden style="text-align: left; line-height: 1.5;"></div>
 
     <section class="stats-grid" aria-label="RSVP Summary Statistics">
       <div class="stat-card">
@@ -363,17 +370,14 @@
     </section>
 
     <div class="controls-bar">
-      <input
-        type="search"
-        id="guestSearchInput"
-        class="search-input"
-        placeholder="Search guest name, food restriction, or note..."
-        aria-label="Search guest list"
-      />
+      <input type="search" id="guestSearchInput" class="search-input"
+        placeholder="Search guest name, food restriction, or note..." aria-label="Search guest list" />
       <div class="filter-group" role="tablist" aria-label="Filter by attendance">
         <button type="button" class="filter-btn active" data-filter="all" id="filterAllBtn">All (0)</button>
-        <button type="button" class="filter-btn" data-filter="joyfully_accepts" id="filterAcceptsBtn">Attending (0)</button>
-        <button type="button" class="filter-btn" data-filter="regretfully_declines" id="filterDeclinesBtn">Declined (0)</button>
+        <button type="button" class="filter-btn" data-filter="joyfully_accepts" id="filterAcceptsBtn">Attending
+          (0)</button>
+        <button type="button" class="filter-btn" data-filter="regretfully_declines" id="filterDeclinesBtn">Declined
+          (0)</button>
       </div>
     </div>
 
@@ -532,19 +536,75 @@
       });
 
       async function loadGuestData() {
+        const diagnosticBanner = document.getElementById('diagnosticBanner');
+        let serverGuests = [];
+
+        // 1. Check PHP execution & write permissions via index.php?check=1
         try {
-          const res = await fetch('guests.json?t=' + Date.now(), { cache: 'no-store' });
-          if (!res.ok) throw new Error('Failed to load guests.json');
-          const data = await res.json();
-          renderGuests(data);
+          const checkRes = await fetch('index.php?check=1&t=' + Date.now(), { cache: 'no-store' });
+          const rawCheck = await checkRes.text();
+          if (rawCheck.includes('<?php')) {
+            if (diagnosticBanner) {
+              diagnosticBanner.hidden = false;
+              diagnosticBanner.innerHTML =
+                '<strong>⚠️ PHP is not enabled in Apache httpd:</strong> Your Linux <code>httpd</code> server is serving <code>index.php</code> as plain text instead of executing PHP. Install PHP for httpd and restart:<br>' +
+                '<code>sudo dnf install -y php php-fpm php-json &amp;&amp; sudo systemctl enable --now php-fpm &amp;&amp; sudo systemctl restart httpd</code>';
+            }
+          } else {
+            const checkData = JSON.parse(rawCheck);
+            if (checkData && Array.isArray(checkData.guests)) {
+              serverGuests = checkData.guests;
+            }
+            if (checkData && (!checkData.fileWritable || !checkData.dirWritable)) {
+              if (diagnosticBanner) {
+                diagnosticBanner.hidden = false;
+                diagnosticBanner.innerHTML =
+                  `<strong>⚠️ Linux Write Permission / SELinux Blocked (user: <code>${escapeHtml(checkData.processUser || 'apache')}</code>):</strong> ` +
+                  '<code>httpd</code> does not have permission to write to <code>guestlist/guests.json</code>. Run this in your project root on Linux:<br>' +
+                  '<code>sudo chmod -R 777 guestlist &amp;&amp; sudo chcon -R -t httpd_sys_rw_content_t guestlist</code>';
+              }
+            }
+          }
         } catch {
-          renderGuests([]);
+          // Fallback to direct JSON fetch below
         }
+
+        // 2. Also check guests.json and guest.json directly if serverGuests is still empty
+        if (serverGuests.length === 0) {
+          for (const file of ['guests.json', 'guest.json']) {
+            try {
+              const res = await fetch(`${file}?t=${Date.now()}`, { cache: 'no-store' });
+              if (res.ok) {
+                const data = await res.json();
+                if (Array.isArray(data) && data.length > 0) {
+                  serverGuests = data;
+                  break;
+                }
+              }
+            } catch {
+              // Ignore fetch error
+            }
+          }
+        }
+
+        // 3. If server JSON is empty (e.g. before PHP/permissions fix), merge browser localStorage backup
+        if (serverGuests.length === 0) {
+          try {
+            const localBackup = JSON.parse(localStorage.getItem('clifford_jessa_rsvps') || '[]');
+            if (Array.isArray(localBackup) && localBackup.length > 0) {
+              serverGuests = localBackup;
+            }
+          } catch {
+            // Ignore storage error
+          }
+        }
+
+        renderGuests(serverGuests);
       }
 
       loadGuestData();
     })();
   </script>
 </body>
-</html>
 
+</html>
