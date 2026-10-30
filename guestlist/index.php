@@ -556,7 +556,7 @@ $fileWritable = file_exists($jsonFile) ? is_writable($jsonFile) : $dirWritable;
   <main class="guestlist-container">
     <div class="top-bar">
       <a href="../index.html" class="back-link">← Back to Wedding Invitation</a>
-      <button type="button" id="exportCsvBtn" class="back-link" style="cursor: pointer;">⬇ Export CSV</button>
+      <button type="button" id="exportCsvBtn" class="back-link" style="cursor: pointer;">Export CSV</button>
     </div>
 
     <header class="header-block">

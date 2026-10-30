@@ -1,0 +1,4 @@
+# Ignore JSON data files (such as RSVP guestlist storage)
+*.json
+guestlist/*.json
+
