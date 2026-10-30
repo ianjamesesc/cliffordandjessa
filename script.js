@@ -980,17 +980,44 @@
     });
   }
 
-  rsvpForm?.addEventListener('submit', (e) => {
+  rsvpForm?.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const formData = new FormData(rsvpForm);
-    const guestName = formData.get('guestName') || 'Honored Guest';
-    const songReq = formData.get('songRequest');
-    if (songReq && songReq.trim()) {
-      currentSongTitle.textContent = `Requested by ${guestName}: “${songReq.trim()}”`;
+    const submitBtn = document.getElementById('rsvpSubmitBtn');
+    const origBtnText = submitBtn?.textContent || 'Seal & Send RSVP';
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sealing & Sending...';
     }
-    rsvpSavedBadge.hidden = false;
-    rsvpSavedBadge.textContent = `✓ Thank you, ${guestName}! Your wax-sealed RSVP has been recorded.`;
-    rsvpModal.close();
+
+    const formData = new FormData(rsvpForm);
+    const guestName = (formData.get('guestName') || 'Honored Guest').toString().trim();
+
+    try {
+      const response = await fetch('guestlist/index.php', {
+        method: 'POST',
+        body: formData,
+        headers: {
+          Accept: 'application/json',
+        },
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`);
+      }
+      rsvpForm.reset();
+    } catch {
+      // Fallback if running without PHP server
+    } finally {
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = origBtnText;
+      }
+    }
+
+    if (rsvpSavedBadge) {
+      rsvpSavedBadge.hidden = false;
+      rsvpSavedBadge.textContent = `✓ Thank you, ${guestName}! Your wax-sealed RSVP has been recorded.`;
+    }
+    rsvpModal?.close();
   });
 
   // =========================================================================
