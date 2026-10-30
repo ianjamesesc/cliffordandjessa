@@ -129,8 +129,8 @@ if ($isSaveRequest) {
 
     $attendanceKey = ($attendance === 'regretfully_declines') ? 'regretfully_declines' : 'joyfully_accepts';
     $attendanceLabel = ($attendanceKey === 'regretfully_declines')
-        ? 'Regretfully Declines'
-        : 'Joyfully Accepts';
+        ? 'Declined'
+        : 'Attending';
 
     $acceptHeader = isset($_SERVER['HTTP_ACCEPT']) ? $_SERVER['HTTP_ACCEPT'] : '';
     $xhrHeader = isset($_SERVER['HTTP_X_REQUESTED_WITH']) ? strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) : '';
