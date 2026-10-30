@@ -980,113 +980,12 @@
     });
   }
 
-  rsvpForm?.addEventListener('submit', async (e) => {
-    e.preventDefault();
+  // Allow #rsvpForm to POST natively to guestlist/index.php
+  rsvpForm?.addEventListener('submit', () => {
     const submitBtn = document.getElementById('rsvpSubmitBtn');
-    const origBtnText = submitBtn?.textContent || 'Seal & Send RSVP';
     if (submitBtn) {
-      submitBtn.disabled = true;
       submitBtn.textContent = 'Sealing & Sending...';
     }
-
-    const formData = new FormData(rsvpForm);
-    const guestName = (formData.get('guestName') || 'Honored Guest').toString().trim();
-    const attendance = (formData.get('attendance') || 'joyfully_accepts').toString().trim();
-    const foodRestrictions = (formData.get('foodRestrictions') || 'None').toString().trim() || 'None';
-    const message = (formData.get('message') || '').toString().trim();
-
-    // Save a local backup in localStorage in case server permissions block PHP write
-    const fallbackEntry = {
-      id: 'local_' + Date.now(),
-      guestName,
-      attendance,
-      attendanceLabel: attendance === 'regretfully_declines' ? 'Regretfully Declines' : 'Joyfully Accepts',
-      foodRestrictions,
-      message,
-      submittedAt: new Date().toLocaleString('en-US', {
-        month: 'short',
-        day: '2-digit',
-        year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
-      }),
-    };
-    try {
-      const existingLocal = JSON.parse(localStorage.getItem('clifford_jessa_rsvps') || '[]');
-      if (Array.isArray(existingLocal)) {
-        existingLocal.push(fallbackEntry);
-        localStorage.setItem('clifford_jessa_rsvps', JSON.stringify(existingLocal));
-      }
-    } catch {
-      // Ignore storage errors
-    }
-
-    let serverErrorMsg = '';
-    try {
-      const bodyParams = new URLSearchParams();
-      bodyParams.set('guestName', guestName);
-      bodyParams.set('attendance', attendance);
-      bodyParams.set('foodRestrictions', foodRestrictions);
-      bodyParams.set('message', message);
-
-      let response = await fetch('guestlist/index.php?ajax=1', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
-          Accept: 'application/json',
-          'X-Requested-With': 'XMLHttpRequest',
-        },
-        body: bodyParams.toString(),
-      });
-
-      let rawText = await response.text();
-      let data = null;
-      try {
-        data = JSON.parse(rawText);
-      } catch {
-        data = null;
-      }
-
-      // Fallback: if POST body was stripped by a redirect/proxy, retry with query params
-      if (!data || data.ok !== true) {
-        const getRes = await fetch(`guestlist/index.php?action=save&ajax=1&${bodyParams.toString()}`, {
-          method: 'GET',
-          headers: { Accept: 'application/json' },
-          cache: 'no-store',
-        });
-        rawText = await getRes.text();
-        try {
-          data = JSON.parse(rawText);
-        } catch {
-          data = null;
-        }
-      }
-
-      if (data && data.ok === true) {
-        rsvpForm.reset();
-      } else if (data && data.error) {
-        serverErrorMsg = `${data.error}${data.fixHint ? ' — ' + data.fixHint : ''}`;
-      } else if (rawText.includes('<?php')) {
-        serverErrorMsg = 'Note: PHP is not enabled in httpd yet (saved locally in browser).';
-      } else {
-        serverErrorMsg = `Server returned non-JSON response (HTTP ${response.status}).`;
-      }
-    } catch {
-      serverErrorMsg = 'Saved locally (PHP endpoint unreachable).';
-    } finally {
-      if (submitBtn) {
-        submitBtn.disabled = false;
-        submitBtn.textContent = origBtnText;
-      }
-    }
-
-    if (rsvpSavedBadge) {
-      rsvpSavedBadge.hidden = false;
-      rsvpSavedBadge.textContent = serverErrorMsg
-        ? `✓ Thank you, ${guestName}! (${serverErrorMsg})`
-        : `✓ Thank you, ${guestName}! Your wax-sealed RSVP has been recorded.`;
-    }
-    rsvpModal?.close();
   });
 
   // =========================================================================

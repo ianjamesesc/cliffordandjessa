@@ -30,6 +30,15 @@ function loadGuestsList($primaryPath, $altPath)
 
 function writeJsonSafeFile($path, $payload)
 {
+    clearstatcache(true, $path);
+    if (file_exists($path) && !is_writable($path)) {
+        @chmod($path, 0666);
+        clearstatcache(true, $path);
+        if (!is_writable($path)) {
+            @unlink($path);
+        }
+    }
+
     $bytes = @file_put_contents($path, $payload, LOCK_EX);
     if ($bytes === false) {
         $bytes = @file_put_contents($path, $payload);
@@ -43,6 +52,7 @@ function writeJsonSafeFile($path, $payload)
     }
     if ($bytes !== false) {
         @chmod($path, 0666);
+        clearstatcache(true, $path);
         return true;
     }
     return false;
@@ -81,6 +91,8 @@ if (isset($_GET['check'])) {
 }
 
 // 2. Handle RSVP Submission (Supports POST, JSON body, or GET ?action=save)
+$writeErrorMsg = '';
+$justSubmitted = isset($_GET['submitted']);
 $method = isset($_SERVER['REQUEST_METHOD']) ? strtoupper($_SERVER['REQUEST_METHOD']) : 'GET';
 $isSaveRequest = ($method === 'POST') || (isset($_GET['action']) && $_GET['action'] === 'save') || isset($_POST['guestName']);
 
@@ -126,75 +138,67 @@ if ($isSaveRequest) {
         || ($xhrHeader === 'xmlhttprequest')
         || isset($_GET['ajax']);
 
-    if ($guestName === '') {
-        if ($wantsJson) {
-            header('Content-Type: application/json; charset=utf-8', true, 400);
-            echo json_encode(array('ok' => false, 'error' => 'Guest name is required.'));
+    if ($guestName !== '') {
+        $guests = loadGuestsList($jsonFile, $altJsonFile);
+
+        $newEntry = array(
+            'id' => uniqid('rsvp_'),
+            'guestName' => $guestName,
+            'attendance' => $attendanceKey,
+            'attendanceLabel' => $attendanceLabel,
+            'foodRestrictions' => $foodRestrictions,
+            'message' => $message,
+            'submittedAt' => date('M d, Y - h:i A'),
+            'timestamp' => date('c')
+        );
+
+        $guests[] = $newEntry;
+
+        $jsonFlags = defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : 0;
+        if (defined('JSON_UNESCAPED_UNICODE')) {
+            $jsonFlags = $jsonFlags | JSON_UNESCAPED_UNICODE;
+        }
+        $encoded = json_encode($guests, $jsonFlags) . "\n";
+
+        $wrotePrimary = writeJsonSafeFile($jsonFile, $encoded);
+        $wroteAlt = writeJsonSafeFile($altJsonFile, $encoded);
+
+        if (!$wrotePrimary && !$wroteAlt) {
+            $lastErrObj = error_get_last();
+            $lastErr = (is_array($lastErrObj) && isset($lastErrObj['message']))
+                ? $lastErrObj['message']
+                : 'Permission denied writing to ' . $jsonFile;
+            $writeErrorMsg = $lastErr;
+
+            if ($wantsJson) {
+                header('Content-Type: application/json; charset=utf-8', true, 500);
+                echo json_encode(array(
+                    'ok' => false,
+                    'error' => 'Server could not write to guests.json: ' . $lastErr,
+                    'fixHint' => 'sudo chown -R apache:apache guestlist && sudo chmod -R 775 guestlist && sudo chcon -R -t httpd_sys_rw_content_t guestlist'
+                ));
+                exit;
+            }
+        } else {
+            if ($wantsJson) {
+                header('Content-Type: application/json; charset=utf-8');
+                echo json_encode(array(
+                    'ok' => true,
+                    'entry' => $newEntry,
+                    'total' => count($guests)
+                ));
+                exit;
+            }
+            header('Location: index.php?submitted=1', true, 303);
             exit;
         }
-        header('Location: index.php?error=missing_name', true, 303);
-        exit;
     }
-
-    $guests = loadGuestsList($jsonFile, $altJsonFile);
-
-    $newEntry = array(
-        'id' => uniqid('rsvp_'),
-        'guestName' => $guestName,
-        'attendance' => $attendanceKey,
-        'attendanceLabel' => $attendanceLabel,
-        'foodRestrictions' => $foodRestrictions,
-        'message' => $message,
-        'submittedAt' => date('M d, Y - h:i A'),
-        'timestamp' => date('c')
-    );
-
-    $guests[] = $newEntry;
-
-    $jsonFlags = defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : 0;
-    if (defined('JSON_UNESCAPED_UNICODE')) {
-        $jsonFlags = $jsonFlags | JSON_UNESCAPED_UNICODE;
-    }
-    $encoded = json_encode($guests, $jsonFlags) . "\n";
-
-    $wrotePrimary = writeJsonSafeFile($jsonFile, $encoded);
-    $wroteAlt = writeJsonSafeFile($altJsonFile, $encoded);
-
-    if (!$wrotePrimary && !$wroteAlt) {
-        $lastErrObj = error_get_last();
-        $lastErr = (is_array($lastErrObj) && isset($lastErrObj['message']))
-            ? $lastErrObj['message']
-            : 'Permission denied writing JSON file.';
-
-        if ($wantsJson) {
-            header('Content-Type: application/json; charset=utf-8', true, 500);
-            echo json_encode(array(
-                'ok' => false,
-                'error' => 'Server could not write to guests.json: ' . $lastErr,
-                'fixHint' => 'sudo chmod -R 777 guestlist && sudo chcon -R -t httpd_sys_rw_content_t guestlist'
-            ));
-            exit;
-        }
-        header('Location: index.php?error=write_failed', true, 303);
-        exit;
-    }
-
-    if ($wantsJson) {
-        header('Content-Type: application/json; charset=utf-8');
-        echo json_encode(array(
-            'ok' => true,
-            'entry' => $newEntry,
-            'total' => count($guests)
-        ));
-        exit;
-    }
-
-    header('Location: index.php?submitted=1', true, 303);
-    exit;
 }
 
 // 3. Load Guests for Server-Side Table Rendering
-$guests = loadGuestsList($jsonFile, $altJsonFile);
+if (!isset($guests) || !is_array($guests)) {
+    $guests = loadGuestsList($jsonFile, $altJsonFile);
+}
 $totalResponses = count($guests);
 $attendingCount = 0;
 $decliningCount = 0;
@@ -558,17 +562,22 @@ $fileWritable = file_exists($jsonFile) ? is_writable($jsonFile) : $dirWritable;
       <p class="subtitle">Live RSVP responses &amp; dietary notes recorded from the wedding invitation</p>
     </header>
 
-    <?php if (isset($_GET['submitted'])): ?>
+    <?php if ($justSubmitted): ?>
       <div class="toast-banner" role="status">
         ✓ Thank you! Your RSVP response has been saved to the guest list.
       </div>
     <?php endif; ?>
 
-    <?php if (!$fileWritable || !$dirWritable): ?>
+    <?php if ($writeErrorMsg !== ''): ?>
+      <div class="toast-banner" role="alert" style="text-align: left; line-height: 1.5;">
+        <strong>⚠️ Could not write to JSON file:</strong> <?php echo e($writeErrorMsg); ?><br />
+        Run on your Linux server: <code>sudo chown -R apache:apache <?php echo e(dirname(__FILE__)); ?> &amp;&amp; sudo chmod -R 775 <?php echo e(dirname(__FILE__)); ?> &amp;&amp; sudo chcon -R -t httpd_sys_rw_content_t <?php echo e(dirname(__FILE__)); ?></code>
+      </div>
+    <?php elseif (!$fileWritable || !$dirWritable): ?>
       <div class="toast-banner" role="alert" style="text-align: left; line-height: 1.5;">
         <strong>⚠️ Linux Write Permission / SELinux Notice:</strong>
-        <code>httpd</code> cannot write to <code>guestlist/guests.json</code> yet. Run on your Linux server:<br />
-        <code>sudo chmod -R 777 guestlist &amp;&amp; sudo chcon -R -t httpd_sys_rw_content_t guestlist</code>
+        <code>httpd</code> does not have write access to <code><?php echo e($jsonFile); ?></code> yet. Run on your Linux server:<br />
+        <code>sudo chown -R apache:apache <?php echo e(dirname(__FILE__)); ?> &amp;&amp; sudo chmod -R 775 <?php echo e(dirname(__FILE__)); ?> &amp;&amp; sudo chcon -R -t httpd_sys_rw_content_t <?php echo e(dirname(__FILE__)); ?></code>
       </div>
     <?php endif; ?>
 
