@@ -988,6 +988,37 @@
     }
   });
 
+  // Handle return redirect from guestlist/index.php after RSVP submission (?rsvp=submitted)
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get('rsvp') === 'submitted') {
+    const submittedGuest = urlParams.get('guest') || 'Honored Guest';
+    if (boothView) {
+      boothView.hidden = true;
+      boothView.classList.remove('active');
+    }
+    if (invitationView) {
+      invitationView.hidden = false;
+      invitationView.classList.add('active');
+    }
+    if (boothPhotoStrip) {
+      boothPhotoStrip.classList.add('printed-done');
+    }
+    if (openInvitationBtn) {
+      openInvitationBtn.classList.add('btn-visible');
+    }
+    if (rsvpSavedBadge) {
+      rsvpSavedBadge.hidden = false;
+      rsvpSavedBadge.textContent = `✓ Thank you, ${submittedGuest}! Your wax-sealed RSVP has been recorded.`;
+    }
+    const rsvpHeading = document.getElementById('rsvpSectionHeading');
+    setTimeout(() => {
+      rsvpHeading?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 100);
+    if (window.history && window.history.replaceState) {
+      window.history.replaceState({}, document.title, window.location.pathname + window.location.hash);
+    }
+  }
+
   // =========================================================================
   // 10. SCROLL-DRIVEN ANIMATIONS FALLBACK (IntersectionObserver)
   // Follows `scroll-entry-exit-effects` guide from modern-web-guidance
