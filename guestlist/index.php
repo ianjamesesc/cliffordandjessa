@@ -129,8 +129,8 @@ if ($isSaveRequest) {
 
     $attendanceKey = ($attendance === 'regretfully_declines') ? 'regretfully_declines' : 'joyfully_accepts';
     $attendanceLabel = ($attendanceKey === 'regretfully_declines')
-        ? 'Declined'
-        : 'Attending';
+        ? 'Regretfully Declines'
+        : 'Joyfully Accepts';
 
     $acceptHeader = isset($_SERVER['HTTP_ACCEPT']) ? $_SERVER['HTTP_ACCEPT'] : '';
     $xhrHeader = isset($_SERVER['HTTP_X_REQUESTED_WITH']) ? strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) : '';
@@ -189,12 +189,9 @@ if ($isSaveRequest) {
                 ));
                 exit;
             }
-            header('Location: ../index.html?rsvp=submitted&guest=' . rawurlencode($guestName) . '#rsvpSectionHeading', true, 303);
+            header('Location: index.php?submitted=1', true, 303);
             exit;
         }
-    } else {
-        header('Location: ../index.html#rsvpSectionHeading', true, 303);
-        exit;
     }
 }
 
@@ -556,7 +553,7 @@ $fileWritable = file_exists($jsonFile) ? is_writable($jsonFile) : $dirWritable;
   <main class="guestlist-container">
     <div class="top-bar">
       <a href="../index.html" class="back-link">← Back to Wedding Invitation</a>
-      <button type="button" id="exportCsvBtn" class="back-link" style="cursor: pointer;">Export CSV</button>
+      <button type="button" id="exportCsvBtn" class="back-link" style="cursor: pointer;">⬇ Export CSV</button>
     </div>
 
     <header class="header-block">
@@ -643,7 +640,7 @@ $fileWritable = file_exists($jsonFile) ? is_writable($jsonFile) : $dirWritable;
                 $pillClass = $isAccepting ? 'status-accepts' : 'status-declines';
                 $label = isset($guest['attendanceLabel'])
                     ? $guest['attendanceLabel']
-                    : ($isAccepting ? 'Joyfully Accepts' : 'Regretfully Declines');
+                    : ($isAccepting ? 'Attending' : 'Can\'t make it');
                 $food = isset($guest['foodRestrictions']) ? trim((string)$guest['foodRestrictions']) : 'None';
                 $msg = isset($guest['message']) ? trim((string)$guest['message']) : '';
                 $submittedAt = isset($guest['submittedAt']) ? (string)$guest['submittedAt'] : '';
