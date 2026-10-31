@@ -2040,12 +2040,13 @@ body {
   font-weight: 500;
   letter-spacing: 0.06em;
   color: #F7EBDF;
-  margin-bottom: 24px;
+  margin-bottom: 14px;
   text-transform: uppercase;
 }
 
 .terracotta-banner-reception {
-  padding-top: 16px;
+  margin-top: 24px;
+  padding-top: 20px;
   border-top: 1px solid rgba(247, 235, 223, 0.2);
 }
 
@@ -2053,8 +2054,35 @@ body {
   font-family: var(--font-serif);
   font-size: clamp(1.35rem, 4.5vw, 1.65rem);
   color: #F7EBDF;
-  margin-bottom: 4px;
+  margin-bottom: 14px;
   text-transform: uppercase;
+}
+
+.venue-directions-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 9px 22px;
+  border-radius: 999px;
+  border: 1px solid rgba(247, 235, 223, 0.55);
+  background: rgba(255, 253, 249, 0.14);
+  color: #FFFDF9;
+  font-family: var(--font-sans);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background-color 0.25s ease, color 0.25s ease, transform 0.2s ease, border-color 0.25s ease;
+}
+
+.venue-directions-btn:hover,
+.venue-directions-btn:focus-visible {
+  background: #FFFDF9;
+  color: #872306;
+  border-color: #FFFDF9;
+  transform: translateY(-2px);
 }
 
 .reception-script {
