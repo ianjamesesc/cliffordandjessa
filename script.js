@@ -58,7 +58,7 @@
   let isPrinting = false;
   let hasPrinted = false;
   let isMusicPlaying = false;
-  let useCustomAudio = false;
+  let useCustomAudio = true;
   let audioCtx = null;
   let melodyTimer = null;
   let customPhotoImages = [];
